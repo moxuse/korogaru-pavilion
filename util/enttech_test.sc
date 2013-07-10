@@ -22,6 +22,7 @@ r.put("noise", t);
 m = r.at("noise");
 m.play
 
+x !? ( _ * 3 ) ?? { "It was a nil, so I give a default value".postln; Point(1,1) }
 
 
 (
@@ -30,7 +31,7 @@ g = Pdef(\noise,
 	Pfunc({
 	5.do({
 		f = DMXCue.new(0);
-		(0,1..50).do({|i| f.put(i, 0.2.rand)});
+				(0,1..50).do({|i| f.put(i, 0.2.rand);});
 
 		d.currentCue = f;
 		d.setCue;
@@ -85,3 +86,41 @@ Pdef( 'strobing', Pbind( \dur, 2, \strobe, Pfunc({ c.put( 1, 255); d.setCue;
 "i strobe".postln; }, inf) ) );
 Pdef(\strobing).play;
 
+
+
+(
+SynthDef(\help_sinegrain,
+    { arg out = 0, freq = 440, sustain = 0.05;
+        var env;
+        env = EnvGen.kr(Env.perc(0.01, sustain, 0.2), doneAction:2);
+        Out.ar(out, SinOsc.ar(freq, 0, env))
+    }).add;
+)
+
+//////////////////////////////////
+
+(
+var a;
+a = Pfuncn({
+	var g = DMXCue.new();
+	(0,1..511).do({|i| g.put(i, 1.0)});
+	g;
+}, 14).asStream;
+
+b = Pfuncn({
+	var g = DMXCue.new();
+	(0,1..511).do({|i| g.put(i, 2.0)});
+	g;
+}, 13).asStream;
+c = Pseq([a,b],1).asStream;
+{
+    c.do { |val|
+		val.postln;
+        //Synth(\help_sinegrain, [\freq, val * 100 + 300]);
+		val.data.postln;
+		d.currentCue = f;
+		d.setCue;
+        0.05.wait;
+    }
+}.fork;
+)
