@@ -22,8 +22,6 @@ r.put("noise", t);
 m = r.at("noise");
 m.play
 
-x !? ( _ * 3 ) ?? { "It was a nil, so I give a default value".postln; Point(1,1) }
-
 
 (
 g = Pdef(\noise,
@@ -105,22 +103,22 @@ a = Pfuncn({
 	var g = DMXCue.new();
 	(0,1..511).do({|i| g.put(i, 1.0)});
 	g;
-}, 14).asStream;
+}, 3).asStream;
 
 b = Pfuncn({
 	var g = DMXCue.new();
 	(0,1..511).do({|i| g.put(i, 2.0)});
 	g;
-}, 13).asStream;
+}, 8).asStream;
 c = Pseq([a,b],1).asStream;
-{
+Tdef(\patter_t, {
+	"synth__________: ".postln;
     c.do { |val|
 		val.postln;
         //Synth(\help_sinegrain, [\freq, val * 100 + 300]);
-		val.data.postln;
-		d.currentCue = f;
+		d.currentCue = val;
 		d.setCue;
-        0.05.wait;
+        0.1.wait;
     }
-}.fork;
+}).play(SystemClock);
 )
