@@ -5,6 +5,7 @@ from OSC import OSCServer
 from time import sleep
 import numpy as np
 import optparse
+from setproctitle import setproctitle
 
 START_VAL = 0x7E
 END_VAL = 0xE7
@@ -85,6 +86,7 @@ def writeDMX():
 
 
 def main():
+  setproctitle("osc-dmx")
 
   parser = optparse.OptionParser('Usage: %prog [options]')
   parser.add_option('-d', '--device',
