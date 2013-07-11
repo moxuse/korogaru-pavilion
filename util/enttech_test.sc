@@ -56,18 +56,18 @@ Pfunc({
 Tdef(\noise).play(SystemClock);
 Tdef(\noise).stop
 
-c = DMXCue.new
-(0,1..511).do({|i| c.put(i, 0)});
 (
+c = DMXCue.new();
+(0,1..511).do({|i| c.put(i, 0)});
+g = DMXRGBCue.new();
 fork{
-	g = DMXRGBCue.new();
-	(0,1..511).do({|i| f.put(i, 0.0)});
-	g.range(35,114,Color(0.1,0.3,1.3));
+	(0,1..511).do({|i| c.put(i, 0.0)});
+	g.range(0,127,Color(0.03221875, 0.001, 1),1);
 	c.merge(g);
 	"put".postln;
-	d.currentCue = f;
+	d.currentCue = c;
 	d.setCue;
-	d.fade(c,1.0,\linear);
+	d.fade(c,1.0,'linear',0.05);
 }
 )
 
@@ -96,29 +96,89 @@ SynthDef(\help_sinegrain,
 )
 
 //////////////////////////////////
+(
+SynthDef(\click,{
+	Out.ar(0,Impulse.ar(1))*EnvGen.ar(Env.perc(0,0.1,1,12),doneAction:2);
+}).store()
+)
+
+d = DMX.new;
+e = EntTecDMXUSBPro.new( "/dev/tty.usbserial-EN119503" );
+//e = EntTecDMXUSBProMk2.new( "/dev/tty.usbserial-ENVWHYEN" );
+d.device = e;
+g = DMXCue.new();
+c = DMXCue.new();
+f = DMXCue.new();
 
 (
-var a;
-a = Pfuncn({
-	var g = DMXCue.new();
-	(0,1..511).do({|i| g.put(i, 1.0)});
-	g;
-}, 3).asStream;
 
-b = Pfuncn({
-	var g = DMXCue.new();
-	(0,1..511).do({|i| g.put(i, 2.0)});
-	g;
-}, 8).asStream;
-c = Pseq([a,b],1).asStream;
-Tdef(\patter_t, {
-	"synth__________: ".postln;
-    c.do { |val|
-		val.postln;
-        //Synth(\help_sinegrain, [\freq, val * 100 + 300]);
-		d.currentCue = val;
-		d.setCue;
-        0.1.wait;
-    }
-}).play(SystemClock);
+~strobC = Pseq([
+	Pfuncn({
+		Synth.new(\click);
+		(0,1..511).do({|i| g.put(i, 0.5.rand)});
+		"this is a".postln;
+		g;
+	}, 10),
+	Pfuncn({
+		Synth.new(\click);
+		"this is b".postln;
+		(0,1..511).do({|i| g.put(i, 1.0.rand)});
+		g;
+	}, 10)
+], 2);
+
+~strobA = Pseq([
+	Pfuncn({
+		"scene A is a".postln;
+		(0,1..511).do({|i| g.put(i, 0.5.rand)});
+		g;
+	}, 10),
+
+	Pfuncn({
+		Synth.new(\click);
+		(0,1..511).do({|i| g.put(i, 1.0.rand)});
+		"scene A is b".postln;
+		g;
+	}, 10)
+
+],2);
+
 )
+
+
+(
+z = Routine({
+
+	loop{
+    ~strobC.do {|value|
+		//d.sendCue(value);
+//		NetAddr("10.4.0.58",5000).sendMsg("/dmx",value.asRawInt8);
+		NetAddr("localhost",5000).sendMsg("/dmx",value.asRawInt8);
+        0.05.wait;
+    };
+	1.0.wait;
+
+	~strobA.do {|value|
+		//d.sendCue(value);
+//		NetAddr("10.4.0.58",5000).sendMsg("/dmx",value.asRawInt8);
+		NetAddr("localhost",5000).sendMsg("/dmx",value.asRawInt8);
+        0.05.wait;
+    };
+	1.0.wait;
+
+//	Synth.new(\click);
+		// "fade start".postln;
+		// y = DMXRGBCue.new();
+		// y.range(0,511,Color(0.03221875, 0.001, 1),1);
+		// g.merge(y);
+		// "fade end".postln;
+		// //d.fade(g,2.0,'linear',0.08);
+		// d.fadeOSC(NetAddr("10.4.0.58",5000), g, 2.0,'linear',0.08);
+		// 4.0.wait;
+
+	}
+}).play()
+)
+
+z.stop();
+
