@@ -29,7 +29,7 @@ g = Pdef(\noise,
 	Pfunc({
 	5.do({
 		f = DMXCue.new(0);
-				(0,1..50).do({|i| f.put(i, 0.2.rand);});
+		(0,1..50).do({|i| f.put(i, 0.2.rand);});
 
 		d.currentCue = f;
 		d.setCue;
@@ -101,15 +101,15 @@ SynthDef(\click,{
 	Out.ar(0,Impulse.ar(1))*EnvGen.ar(Env.perc(0,0.1,1,12),doneAction:2);
 }).store()
 )
-
+(
 d = DMX.new;
 e = EntTecDMXUSBPro.new( "/dev/tty.usbserial-EN119503" );
 //e = EntTecDMXUSBProMk2.new( "/dev/tty.usbserial-ENVWHYEN" );
 d.device = e;
 g = DMXCue.new();
 c = DMXCue.new();
-f = DMXCue.new();
-
+f = DMXSubCue.new();
+)
 (
 
 ~strobC = Pseq([
@@ -122,7 +122,7 @@ f = DMXCue.new();
 	Pfuncn({
 		Synth.new(\click);
 		"this is b".postln;
-		(0,1..511).do({|i| g.put(i, 1.0.rand)});
+		(0,1..511).do({|i| g.put(i, 1.0)});
 		g;
 	}, 10)
 ], 2);
@@ -130,7 +130,7 @@ f = DMXCue.new();
 ~strobA = Pseq([
 	Pfuncn({
 		"scene A is a".postln;
-		(0,1..511).do({|i| g.put(i, 0.5.rand)});
+		(0,1..511).do({|i| g.put(i, 0.0)});
 		g;
 	}, 10),
 
@@ -151,7 +151,7 @@ z = Routine({
 
 	loop{
     ~strobC.do {|value|
-		//d.sendCue(value);
+
 //		NetAddr("10.4.0.58",5000).sendMsg("/dmx",value.asRawInt8);
 		NetAddr("localhost",5000).sendMsg("/dmx",value.asRawInt8);
         0.05.wait;
@@ -159,7 +159,7 @@ z = Routine({
 	1.0.wait;
 
 	~strobA.do {|value|
-		//d.sendCue(value);
+
 //		NetAddr("10.4.0.58",5000).sendMsg("/dmx",value.asRawInt8);
 		NetAddr("localhost",5000).sendMsg("/dmx",value.asRawInt8);
         0.05.wait;
@@ -167,17 +167,24 @@ z = Routine({
 	1.0.wait;
 
 //	Synth.new(\click);
-		// "fade start".postln;
-		// y = DMXRGBCue.new();
-		// y.range(0,511,Color(0.03221875, 0.001, 1),1);
-		// g.merge(y);
-		// "fade end".postln;
-		// //d.fade(g,2.0,'linear',0.08);
-		// d.fadeOSC(NetAddr("10.4.0.58",5000), g, 2.0,'linear',0.08);
-		// 4.0.wait;
+		"fade start".postln;
+		g = DMXCue.new();
+		(0,1..511).do({|i| g.put(i, 0.0)});
+
+		d.currentCue_(g);
+		//NetAddr("localhost",5000).sendMsg("/dmx",g.value.asRawInt8);
+		y = DMXRGBCue.new();
+		y.range(318,509,Color(0.03221875, 0.001, 1),1);
+		y.range(8,209,Color(1.0, 0.5, 0.00213),1);
+		y.range(190,289,Color(0.0, 0.005, 0.8213),1);
+
+		"fade end".postln;
+		//d.fade(g,2.0,'linear',0.08);
+		d.fadeOSC(NetAddr("localhost",5000), y, 6.0,'linear',0.05);
+		7.0.wait;
 
 	}
-}).play()
+}).play();
 )
 
 z.stop();
