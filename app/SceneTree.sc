@@ -11,4 +11,14 @@ var synthdefs  = [
 
 synthdefs.do({|defs| defs.loadPaths()});
 scenes.do({|scene| scene.loadPaths()});
+
+(
+Tdef(\main,{
+	inf.do{
+		Tdef(\testScene).embed;
+	}
+	})
 )
+
+)
+
