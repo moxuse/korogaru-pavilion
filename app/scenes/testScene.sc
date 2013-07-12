@@ -1,4 +1,13 @@
-"this is testSCene".postln;
+/*
+
+testScene.sc
+
+Supercollider Application For KOROGARU PAVILION TCAM
+Wrten by Koichiro Mori @ moxuss.org 2013
+
+*/
+
+"this is test Scene".postln;
 
 
 Tdef(\testScene_subA,{

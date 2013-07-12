@@ -1,3 +1,12 @@
+/*
+
+testSynths.sc
+
+Supercollider Application For KOROGARU PAVILION TCAM
+Wrten by Koichiro Mori @ moxuss.org 2013
+
+*/
+
 "this is test Synths".postln;
 
 /*
@@ -5,7 +14,7 @@ SoundFile For Buffer Read
 */
 
 s.sendMsg(\b_allocRead, 10, Platform.resourceDir ++ "/sounds/click_04.wav");
-s.sendMsg(\b_allocRead, 14, "sounds/hh13.wav");
+s.sendMsg(\b_allocRead, 14, Platform.resourceDir ++ "sounds/hh13.wav");
 
 
 /*
@@ -28,8 +37,6 @@ SynthDef("simplePlayer", {arg bufnum = 10, out = 0, amp = 1;
   src = PlayBuf.ar(1, bufnum, 1, 1, 0, 0, 2) * amp;
   Out.ar(out, src)
 }).store();
-
-
 
 
 //s.sendMsg(9, "simplePlayer", s.nextNodeID, 1, 1);
