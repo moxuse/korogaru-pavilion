@@ -23,10 +23,15 @@ s.waitForBoot({
 	"python /dev-app/korogaru-pavilion/app/osc-dmx/oscdmx.py".unixCmd { |res, pid|
 		{
 			if ( res == 1 ,{
-				~alert.value( "Could not open Serialport" );
-				error = 1;
-				},{
-					"stoped python osc listener".postln;
+        if ("ps aax | grep osc-dmx".unixCmdGetStdOut.contains("osc-dmx"),{
+          ~alert.value( "Already running osc-dmx process..." );
+        },{
+          ~alert.value( "Could not open Serialport" );
+          error = 1;
+        });
+
+			},{
+				"stoped python osc listener".postln;
 			});
 		}.fork(AppClock);
 
@@ -41,6 +46,7 @@ s.waitForBoot({
 
 			"load sceanes..".postln;
 			"/dev-app/korogaru-pavilion/app/SceneTree.sc".loadPaths();
+      "/dev-app/korogaru-pavilion/app/MainTaskDef.sc".loadPaths();
 
 			1.0.wait;
 			"start scens -- ".postln;
@@ -51,4 +57,3 @@ s.waitForBoot({
 
 })
 )
-
