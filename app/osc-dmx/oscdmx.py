@@ -78,7 +78,7 @@ def writeDMX():
   packet.append(chr((len(dmx_frame)+1 >> 8) & 0xFF))
   packet.append(chr(0))
   for j in xrange(len(dmx_frame)):
-      packet.append(chr(dmx_frame[j]))
+    packet.append(chr(dmx_frame[j]))
       
   packet.append(chr(END_VAL))
   print(packet)
