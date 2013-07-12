@@ -1,14 +1,46 @@
 "this is testSCene".postln;
 
 
-Tdef(\testScene_sub,{
-	"testScene__sub__dayo".postln;
-	1.0.wait;
+Tdef(\testScene_subA,{
+	//"testScene__subA__dayo".postln;
+	0.25.wait;
+});
+
+Tdef(\testScene_subB,{
+	//"testScene__subB__dayo".postln;
+	0.25.wait;
 });
 
 Tdef(\testScene,{
+  (Date.getDate.asString + " started scene _testScene").postln;
+	10.do{
+		Tdef(\testScene_subA).embed;
+		Tdef(\testScene_subB).embed
+	}
+});
+
+////////////////////
+
+Tdef(\testScene_sub2A,{
+  50.do({
+    //"testScene 2__subA__dayo".postln;
+    0.05.wait;
+  })
+});
+
+
+Tdef(\testScene_sub2B,{
+  50.do{
+	//"testScene 2__subB__dayo".postln;
+    0.1.wait;
+  }
+});
+
+Tdef(\testScene2,{
 	1.do{
-		Tdef(\testScene_sub).embed;
-		Tdef(\testScene_sub).embed
+    (Date.getDate.asString + " started scene _testScene2").postln;
+		Tdef(\testScene_sub2A).embed;
+		Tdef(\testScene_sub2B).embed
 	}
 })
+
