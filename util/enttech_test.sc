@@ -130,6 +130,7 @@ f = DMXSubCue.new();
 ~strobA = Pseq([
 	Pfuncn({
 		"scene A is a".postln;
+    Synth.new(\click);
 		(0,1..511).do({|i| g.put(i, 0.0)});
 		g;
 	}, 10),
