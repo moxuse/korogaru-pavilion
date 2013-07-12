@@ -14,7 +14,7 @@ SoundFile For Buffer Read
 */
 
 s.sendMsg(\b_allocRead, 10, Platform.resourceDir ++ "/sounds/click_04.wav");
-s.sendMsg(\b_allocRead, 14, Platform.resourceDir ++ "sounds/hh13.wav");
+s.sendMsg(\b_allocRead, 14, Platform.resourceDir ++ "/sounds/hh13.wav");
 
 
 /*
