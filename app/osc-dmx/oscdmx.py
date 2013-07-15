@@ -11,7 +11,7 @@ START_VAL = 0x7E
 END_VAL = 0xE7
 
 COM_BAUD = 57600
-#COM_BAUD = 250000
+
 COM_TIMEOUT = 0.005
 USB_PORT_NAME = "/dev/tty.usbserial-EN119503"
 HOST_NAME = "localhost"
@@ -86,8 +86,7 @@ def writeDMX():
 
 
 def main():
-  setproctitle("osc-dmx")
-
+  global COM_BAUD, USB_PORT_NAME, HOST_NAME, PORT_NUM
   parser = optparse.OptionParser('Usage: %prog [options]')
   parser.add_option('-d', '--device',
       action='store', dest='USB_PORT_NAME', type='string',
@@ -106,10 +105,18 @@ def main():
   if len(args) > 4:
     parser.error('too many arguments')
 
-  COM_BAUD = options.COM_BAUD
-  USB_PORT_NAME = options.USB_PORT_NAME
-  HOST_NAME = options.HOST_NAME
-  PORT_NUM = options.PORT_NUM
+  if None != options.COM_BAUD:
+    COM_BAUD = options.COM_BAUD
+    print COM_BAUD
+  if None != options.USB_PORT_NAME:
+    USB_PORT_NAME = options.USB_PORT_NAME
+    setproctitle("osc-dmx"+USB_PORT_NAME)
+  else:
+    setproctitle("osc-dmx")
+  if None != options.HOST_NAME:
+    HOST_NAME = options.HOST_NAME
+  if None != options.PORT_NUM:
+    PORT_NUM = options.PORT_NUM
 
   setupDMX()
 
