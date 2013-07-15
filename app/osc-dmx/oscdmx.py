@@ -6,6 +6,7 @@ from time import sleep
 import numpy as np
 import optparse
 from setproctitle import setproctitle
+import types
 
 START_VAL = 0x7E
 END_VAL = 0xE7
@@ -19,16 +20,15 @@ PORT_NUM = 5000
 
 TX_DMX_PACKET = 6
 
-server = OSCServer( (HOST_NAME, PORT_NUM) )
-server.timeout = 0
+server = None
+
 run = True
 dmx_frame = list()
+
 
 def handle_timeout(self):
   self.timed_out = True
 
-import types
-server.handle_timeout = types.MethodType(handle_timeout, server)
 
 def user_callback(path, tags, args, source):
   i = 0
@@ -42,19 +42,22 @@ def user_callback(path, tags, args, source):
   
 
 def quit_callback(path, tags, args, source):
-
   global run
   run = False
 
-server.addMsgHandler( "/dmx", user_callback )
-
 
 def each_frame():
-
   server.timed_out = False
-
   while not server.timed_out:
       server.handle_request()
+
+def setupServer():
+  global server
+  server = OSCServer( (HOST_NAME, PORT_NUM) )
+  server.timeout = 0
+  server.handle_timeout = types.MethodType(handle_timeout, server)
+  server.addMsgHandler( "/dmx", user_callback )
+  print(server)
 
 def setupDMX():
   global com
@@ -119,6 +122,7 @@ def main():
     PORT_NUM = options.PORT_NUM
 
   setupDMX()
+  setupServer()
 
   while run:
 

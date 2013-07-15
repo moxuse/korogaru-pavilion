@@ -9,26 +9,26 @@ DMXPlus
 DMXRGBCue : DMXSubCue {
 	classvar rgbOffset;
 
-	*new{
+	*new {
 		rgbOffset = 3;
 		^super.new;
 	}
 
-	put{ arg id, color;
+	put { arg id, color;
 		var arr = color.asArray;
 		arr.do({arg item, i;
 			data.put( id + i, item );
 		})
 	}
 
-	at{ arg id;
+	at { arg id;
 		var col = Color.new;
 		var arr = [data.at(id), data.at(id+1), data.at(id+2)];
 		col = Color.fromArray(arr);
 		^col;
 	}
 
-	range{ arg from, to, color, step = 1;
+	range { arg from, to, color, step = 1;
 		var arr = (from, from + ( step * rgbOffset )..to);
 		arr.do({|item| data.put(item,color.red)});
 		arr.do({|item| data.put(item+1,color.green)});
@@ -46,12 +46,12 @@ DMXRGBCue : DMXSubCue {
 
 + DMXSubCue {
 
-	range{ arg from, to, val, step=1;
+	range { arg from, to, val, step=1;
 		var arr = (from, from+step..to);
 		arr.do({|item| data.put(item,val)});
 	}
 
-	clear{
+	clear {
 		data.clear;
 	}
 }
@@ -63,7 +63,7 @@ DMXRGBCue : DMXSubCue {
 		this.setCue;
 	}
 
-	fadeOSC{ arg netAddr, to, time=1.0, curve=\linear, timestep=0.040;
+	fadeOSC { arg netAddr, to, time=1.0, curve=\linear, timestep=0.040;
 		var spec, startCue, endCue, nsteps, ddmx, curdmx;
 		spec = [0,1,curve].asSpec;
 		startCue = currentCue;
@@ -92,6 +92,7 @@ DMXRGBCue : DMXSubCue {
 					//currentCue.data.postln;
 
 				netAddr.sendMsg("/dmx" , currentCue.asRawInt8 );
+				("send ....." + netAddr + currentCue.at(0) ).postln;
 				( timestep / Tdef(\dmxfade).envir.speed ).wait;
 				//( timestep ).wait;
 			};
