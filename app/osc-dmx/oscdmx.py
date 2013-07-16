@@ -113,13 +113,13 @@ def main():
     print COM_BAUD
   if None != options.USB_PORT_NAME:
     USB_PORT_NAME = options.USB_PORT_NAME
-    setproctitle("osc-dmx"+USB_PORT_NAME)
-  else:
-    setproctitle("osc-dmx")
   if None != options.HOST_NAME:
     HOST_NAME = options.HOST_NAME
   if None != options.PORT_NUM:
     PORT_NUM = options.PORT_NUM
+    setproctitle("osc-dmx"+str(PORT_NUM))
+  else:
+    setproctitle("osc-dmx")
 
   setupDMX()
   setupServer()
