@@ -7,18 +7,41 @@ Wrten by Koichiro Mori @ moxuss.org 2013
 
 */
 (
-var wind,lab,volumeLabel,but,volkonob,scenelab,statuslab;
+var wind,lab,volumeLabel,but,volkonob,scenelab,statuslab,stopSeqBut;
 
+~oscProcesses = [];
 //////main console
 
-~mianConsole =  QWindow(\main_console,Rect(900,750,400,320));
+~mianConsole = QWindow(\main_console,Rect(900,750,400,380));
 scenelab = QStaticText(~mianConsole,Rect(60,10,280,60)).font_(Font("Monaco", 23));
 volumeLabel = QStaticText(~mianConsole,Rect(120,160,350,60)).string_("main_vollume: 0");
 statuslab = QStaticText(~mianConsole,Rect(60,80,350,60)).string_("status: unknown");
 volkonob = QKnob(~mianConsole, Rect(60,160,50,50));
 volkonob.action_({|knob| volumeLabel.string_("main_vollume : "++knob.value.round(1e-2)); s.sendMsg("/n_set", 6000, \amp, knob.value);});
+volkonob.value_(1.0);
 scenelab.string = "current scene: "++"unknown";
-but = QButton(~mianConsole, Rect(60,260,180,30) ).action_({wind.close()}).states_([["Close DMX-OSC Port",Color.red]]);
+
+but = QButton(~mianConsole, Rect(60,300,180,30) ).action_({
+  ~oscProcesses.do({|item| ("killall osc-dmx"++item).unixCmd; });
+}).states_([["Close DMX-OSC Port",Color.red]]);
+
+stopSeqBut = QButton(~mianConsole, Rect(60,260,160,30) ).action_({|but|
+  switch ( but.value,
+    0, {
+      Tdef(\main).resume;
+    },
+    1, {
+      Tdef(\main).pause;
+  });
+   but.value.postln;
+}).states_([["Stop Sequence",Color.blue],["Start Sequence",Color.gray]]);
+
+~mianConsole.onClose_({
+  ~oscProcesses.do({|item| ("killall osc-dmx"++item).unixCmd; });
+  Tdef(\main).stop;
+  s.quit();
+});
+
 ~mianConsole.front;
 
 ~refreshConsole = {|isPlaying_, currentScene_|
@@ -47,12 +70,12 @@ but = QButton(~mianConsole, Rect(60,260,180,30) ).action_({wind.close()}).states
 };
 
 //////////////////
-
+s.makeGui;
 
 s.waitForBoot({
 	var error = nil;
 
-	"python /dev-app/korogaru-pavilion/app/osc-dmx/oscdmx.py".unixCmd { |res, pid|
+	"python /dev-app/korogaru-pavilion/app/osc-dmx/oscdmx.py -p 5000 -d /dev/tty.usbserial-EN119503".unixCmd { |res, pid|
 		{
 			if ( res == 1 ,{
         if ("ps aax | grep osc".unixCmdGetStdOut.contains("osc-dmx"),{
@@ -72,6 +95,10 @@ s.waitForBoot({
 	};
 
 	2.0.wait; //wait for error
+
+  if ("ps aax | grep osc".unixCmdGetStdOut.contains("osc-dmx"),{
+    ~oscProcesses.add("5000");
+  });
 
 	if ( nil == error ,{
 		fork{
