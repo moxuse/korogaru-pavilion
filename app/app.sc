@@ -7,7 +7,7 @@ Wrten by Koichiro Mori @ moxuss.org 2013
 
 */
 (
-var wind,lab,volumeLabel,but,volkonob,scenelab,statuslab,stopSeqBut;
+var wind,lab,volumeLabel,but,volkonob,scenelab,statuslab,stopSeqBut,nextSceneBtn;
 
 ~appDir = "/dev-app/korogaru-pavilion/app/";
 ~oscProcesses = [];
@@ -18,6 +18,11 @@ scenelab = QStaticText(~mianConsole,Rect(60,10,280,60)).font_(Font("Monaco", 23)
 volumeLabel = QStaticText(~mianConsole,Rect(120,160,350,60)).string_("main_vollume: 1");
 statuslab = QStaticText(~mianConsole,Rect(60,80,350,60)).string_("status: unknown");
 volkonob = QKnob(~mianConsole, Rect(60,160,50,50));
+
+nextSceneBtn = QButton(~mianConsole, Rect(340,10,30,60) ).action_({
+  NetAddr("localhost",57120).sendMsg("/next_scene");
+}).states_([[">",Color.black]]);
+
 volkonob.action_({|knob| volumeLabel.string_("main_vollume : "++knob.value.round(1e-2)); s.sendMsg("/n_set", 6000, \amp, knob.value);});
 volkonob.value_(1.0);
 scenelab.string = "current scene: "++"unknown";
