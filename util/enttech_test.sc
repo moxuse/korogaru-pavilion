@@ -103,7 +103,7 @@ SynthDef(\click,{
 )
 (
 d = DMX.new;
-e = EntTecDMXUSBPro.new( "/dev/tty.usbserial-EN119503" );
+//e = EntTecDMXUSBPro.new( "/dev/tty.usbserial-EN119503" );
 //e = EntTecDMXUSBProMk2.new( "/dev/tty.usbserial-ENVWHYEN" );
 d.device = e;
 g = DMXCue.new();
@@ -148,31 +148,32 @@ f = DMXSubCue.new();
 
 
 (
-z = Routine({
 
+z = Routine({
+  var addr = NetAddr("localhost",5000);
 	loop{
-    ~strobC.do {|value|
+/*    ~strobC.do {|value|
 
 //		NetAddr("10.4.0.58",5000).sendMsg("/dmx",value.asRawInt8);
-		NetAddr("localhost",5000).sendMsg("/dmx",value.asRawInt8);
-        0.05.wait;
+		addr.sendMsg("/dmx",value.asRawInt8);
+        0.1.wait;
     };
 	1.0.wait;
 
 	~strobA.do {|value|
 
 //		NetAddr("10.4.0.58",5000).sendMsg("/dmx",value.asRawInt8);
-		NetAddr("localhost",5000).sendMsg("/dmx",value.asRawInt8);
-        0.05.wait;
+		addr.sendMsg("/dmx",value.asRawInt8);
+        0.1.wait;
     };
-	1.0.wait;
+	1.0.wait;*/
 
 //	Synth.new(\click);
 		"fade start".postln;
 		g = DMXCue.new();
 		(0,1..511).do({|i| g.put(i, 0.0)});
 
-		d.currentCue_(g);
+		m.currentCue_(g);
 		//NetAddr("localhost",5000).sendMsg("/dmx",g.value.asRawInt8);
 		y = DMXRGBCue.new();
 		y.range(318,509,Color(0.03221875, 0.001, 1),1);
@@ -181,12 +182,11 @@ z = Routine({
 
 		"fade end".postln;
 		//d.fade(g,2.0,'linear',0.08);
-		d.fadeOSC(NetAddr("localhost",5000), y, 6.0,'linear',0.05);
-		7.0.wait;
+		m.fadeOSC(NetAddr("localhost",5000), y, 10.0,'linear',0.05);
+		11.0.wait;
 
 	}
 }).play();
 )
 
 z.stop();
-
