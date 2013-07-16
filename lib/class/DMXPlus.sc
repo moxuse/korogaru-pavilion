@@ -64,7 +64,9 @@ DMXRGBCue : DMXSubCue {
 	}
 
 	fadeOSC { arg netAddr, to, time=1.0, curve=\linear, timestep=0.040;
-		var spec, startCue, endCue, nsteps, ddmx, curdmx;
+		var spec, startCue, endCue, nsteps, ddmx, curdmx, tdefname;
+    tdefname = ("dmxfade_"++this.hash.asString).asSymbol;
+    //tdefname.postln;
 		spec = [0,1,curve].asSpec;
 		startCue = currentCue;
 		if ( to.isKindOf( DMXSubCue ), {
@@ -78,25 +80,25 @@ DMXRGBCue : DMXSubCue {
 		if ( nsteps > 256, { nsteps = 256; timestep = time/nsteps; } );
 		ddmx = 1/nsteps;
 		//		Tdef( \dmxfade ).envir = ();
-		Tdef( \dmxfade, {
+		Tdef( tdefname, {
 			//	envir = ();
 			//			envir.put( \timestep, timestep );
 			//			envir.put( \nsteps, nsteps );
-			Tdef(\dmxfade).set( \speed, 1 );
+			Tdef(tdefname).set( \speed, 1 );
 			nsteps.do{ |i|
 				currentCue = DMXCue.new;
 				//	spec.map( 1-(ddmx*(i+1)) ).postln;
 				currentCue.data = (startCue.data * spec.map( 1-(ddmx*(i+1)) ) ) + (endCue.data * spec.map( ddmx*(i+1) ) );
 				fadeval = ddmx*(i+1); // could be displayed
-				Tdef(\dmxfade).set( \fadeval, fadeval );
+				Tdef(tdefname).set( \fadeval, fadeval );
 					//currentCue.data.postln;
 
 				netAddr.sendMsg("/dmx" , currentCue.asRawInt8 );
-				("send ....." + netAddr + currentCue.at(0) ).postln;
-				( timestep / Tdef(\dmxfade).envir.speed ).wait;
+				//("send ....." + netAddr + currentCue.at(0) ).postln;
+				( timestep / Tdef(tdefname).envir.speed ).wait;
 				//( timestep ).wait;
 			};
 		});
-		Tdef( \dmxfade ).play(SystemClock);
+		Tdef( tdefname ).play(SystemClock);
 	}
 }
