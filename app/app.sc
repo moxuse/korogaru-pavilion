@@ -33,7 +33,7 @@ stopSeqBut = QButton(~mianConsole, Rect(60,260,160,30) ).action_({|but|
     1, {
       Tdef(\main).pause;
   });
-   but.value.postln;
+  but.value.postln;
 }).states_([["Stop Sequence",Color.blue],["Start Sequence",Color.gray]]);
 
 ~mianConsole.onClose_({
@@ -49,8 +49,8 @@ stopSeqBut = QButton(~mianConsole, Rect(60,260,160,30) ).action_({|but|
     scenelab.string = "current scene: "++currentScene_;
     if (isPlaying_, {
       statuslab.string_("status: RUNNING").stringColor_(Color.blue);
-    }, {
-      statuslab.string_("status: STOP").stringColor_(Color.red);
+      }, {
+        statuslab.string_("status: STOP").stringColor_(Color.red);
     });
   }
 };
@@ -61,58 +61,58 @@ stopSeqBut = QButton(~mianConsole, Rect(60,260,160,30) ).action_({|but|
 //////////// alert
 
 ~alert = { arg message;
-	var wind,lab,but;
-	wind = QWindow(\alert,Rect(900,750,400,270));
-	lab = QStaticText(wind,Rect(120,10,180,60));
-	lab.string = message;
-	but = QButton(wind, Rect(120,200,140,30) ).action_({wind.close()}).states_([["ok",Color.black]]);
-	wind.front;
+  var wind,lab,but;
+  wind = QWindow(\alert,Rect(900,750,400,270));
+  lab = QStaticText(wind,Rect(120,10,180,60));
+  lab.string = message;
+  but = QButton(wind, Rect(120,200,140,30) ).action_({wind.close()}).states_([["ok",Color.black]]);
+  wind.front;
 };
 
 //////////////////
 s.makeGui;
 
 s.waitForBoot({
-	var error = nil;
+  var error = nil;
 
-	"python /dev-app/korogaru-pavilion/app/osc-dmx/oscdmx.py -p 5000 -d /dev/tty.usbserial-EN119503".unixCmd { |res, pid|
-		{
-			if ( res == 1 ,{
+  "python /dev-app/korogaru-pavilion/app/osc-dmx/oscdmx.py -p 5000 -d /dev/tty.usbserial-EN119503".unixCmd { |res, pid|
+    {
+      if ( res == 1 ,{
         if ("ps aax | grep osc".unixCmdGetStdOut.contains("osc-dmx"),{
           ~alert.value( "Already running osc-dmx process..." );
-        },{
-          ~alert.value( "Could not open Serialport" );
-          error = 1;
+          },{
+            ~alert.value( "Could not open Serialport" );
+            error = 1;
         });
 
-			},{
-				"stoped python osc listener".postln;
-			});
-		}.fork(AppClock);
+        },{
+          "stoped python osc listener".postln;
+      });
+    }.fork(AppClock);
 
-		res.postln;
-		pid.postln;
-	};
+    res.postln;
+    pid.postln;
+  };
 
-	2.0.wait; //wait for error
+  2.0.wait; //wait for error
 
   if ("ps aax | grep osc".unixCmdGetStdOut.contains("osc-dmx"),{
     ~oscProcesses.add("5000");
   });
 
-	if ( nil == error ,{
-		fork{
+  if ( nil == error ,{
+    fork{
 
-			"load sceanes..".postln;
-			"/dev-app/korogaru-pavilion/app/SceneTree.sc".loadPaths();
+      "load sceanes..".postln;
+      "/dev-app/korogaru-pavilion/app/SceneTree.sc".loadPaths();
       "/dev-app/korogaru-pavilion/app/MainTaskDef.sc".loadPaths();
 
-			1.0.wait;
-			"start scens -- ".postln;
-			Tdef(\main).play;
-		}
+      1.0.wait;
+      "start scens -- ".postln;
+      Tdef(\main).play;
+    }
 
-	});
+  });
 
 })
 )
