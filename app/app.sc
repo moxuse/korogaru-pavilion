@@ -16,7 +16,7 @@ scenelab = QStaticText(~mianConsole,Rect(60,10,280,60)).font_(Font("Monaco", 23)
 volumeLabel = QStaticText(~mianConsole,Rect(120,160,350,60)).string_("main_vollume: 0");
 statuslab = QStaticText(~mianConsole,Rect(60,80,350,60)).string_("status: unknown");
 volkonob = QKnob(~mianConsole, Rect(60,160,50,50));
-volkonob.action_({|knob| volumeLabel.string_("main_vollume : "++knob.value.round(1e-2))});
+volkonob.action_({|knob| volumeLabel.string_("main_vollume : "++knob.value.round(1e-2)); s.sendMsg("/n_set", 6000, \amp, knob.value);});
 scenelab.string = "current scene: "++"unknown";
 but = QButton(~mianConsole, Rect(60,260,180,30) ).action_({wind.close()}).states_([["Close DMX-OSC Port",Color.red]]);
 ~mianConsole.front;

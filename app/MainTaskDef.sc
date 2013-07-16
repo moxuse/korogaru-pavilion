@@ -13,10 +13,11 @@ Wrten by Koichiro Mori @ moxuss.org 2013
 
 Tdef(\main,{
 	inf.do{|i|
-    ("scene_current : "+i).postln;
+    ("scene_current : "+i+" : "+~scenes[i%~scenes.size]).postln;
 		Tdef(~scenes[i%~scenes.size]).embed;
 
     ~refreshConsole.value(Tdef(\main).isPlaying, ~scenes[i%~scenes.size]);
+    (i%~scenes.size).postln;
 	}
 });
 
@@ -44,4 +45,4 @@ OSCFunc({|msg|
 
 )
 
- NetAddr("localhost",57120).sendMsg("/next_scene", 1);
+// NetAddr("localhost",57120).sendMsg("/next_scene", 1);
