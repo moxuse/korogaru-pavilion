@@ -9,6 +9,7 @@ Wrten by Koichiro Mori @ moxuss.org 2013
 (
 var wind,lab,volumeLabel,but,volkonob,scenelab,statuslab,stopSeqBut;
 
+~appDir = "/dev-app/korogaru-pavilion/app/";
 ~oscProcesses = [];
 //////main console
 

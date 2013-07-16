@@ -13,8 +13,7 @@ Wrten by Koichiro Mori @ moxuss.org 2013
 SoundFile For Buffer Read
 */
 
-s.sendMsg(\b_allocRead, 10, Platform.resourceDir ++ "/sounds/click_04.wav");
-s.sendMsg(\b_allocRead, 14, Platform.resourceDir ++ "/sounds/hh13.wav");
+s.sendMsg(\b_allocRead, 10, ~appDir++"sounds/click_04.wav");
 
 /*
 Master Volume Synth
@@ -41,4 +40,3 @@ SynthDef("simplePlayer", {arg bufnum = 10, out = 0, amp = 1;
 ////////////////
 
 s.sendMsg(9, "master_volume", 6000, 1, 1); // id 6000 to master volume
-

@@ -8,14 +8,16 @@ Wrten by Koichiro Mori @ moxuss.org 2013
 */
 
 (
+var appDir = "/dev-app/korogaru-pavilion/app/";
+
 var scenes  = [
-  "/dev-app/korogaru-pavilion/app/scenes/testScene.sc",
-  "/dev-app/korogaru-pavilion/app/scenes/testScene.sc"
+  appDir++"scenes/testScene.sc",
+  appDir++"scenes/testScene.sc"
 ];
 
 var synthdefs  = [
-  "/dev-app/korogaru-pavilion/app/synths/testSynths.sc",
-  "/dev-app/korogaru-pavilion/app/synths/testSynths.sc"
+  appDir++"synths/testSynths.sc",
+  appDir++"synths/testSynths.sc"
 ];
 
 synthdefs.do({|defs| defs.loadPaths()});
