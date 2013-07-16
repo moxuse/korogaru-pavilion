@@ -15,9 +15,10 @@ Tdef(\main,{
 	inf.do{|i|
     ("scene_current : "+i).postln;
 		Tdef(~scenes[i%~scenes.size]).embed;
+    ~currentScene = ~scenes[i%~scenes.size];
+    ~refreshConsole.value(Tdef(\main).isPlaying, ~currentScene);
 	}
 });
-
 
 //////// next scene osc function callback ///////
 
@@ -30,6 +31,8 @@ OSCFunc({|msg|
       },{
         Tdef(~scenes[i%~scenes.size]).embed;
       });
+      ~currentScene = ~scenes[i%~scenes.size];
+      ~refreshConsole.value(Tdef(\main).isPlaying, ~currentScene);
     }
   };
   Tdef(\main).resume;
@@ -41,4 +44,4 @@ OSCFunc({|msg|
 
 )
 
-// NetAddr("localhost",57120).sendMsg("/next_scene", 1);
+// NetAddr("localhost",57120).sendMsg("/next_scene", 0);
