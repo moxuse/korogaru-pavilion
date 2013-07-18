@@ -34,6 +34,14 @@ DMXRGBCue : DMXSubCue {
 		arr.do({|item| data.put(item+1,color.green)});
 		arr.do({|item| data.put(item+2,color.blue)});
 	}
+
+  gradationRange { arg from, to, fromColor, toColor, step = 1;
+    var arr = (from, from + ( step * rgbOffset )..to);
+    var dist = (to - from)/rgbOffset;
+    arr.do({|item,i| data.put(item, ( ( max(fromColor.red, toColor.red) - min(fromColor.red, toColor.red) ) / dist ) * i )});
+		arr.do({|item,i| data.put(item+1, ( ( max(fromColor.green, toColor.green) - min(fromColor.green, toColor.green) ) / dist ) * i ) });
+		arr.do({|item,i| data.put(item+2, ( ( max(fromColor.blue, toColor.blue) - min(fromColor.blue, toColor.blue) ) / dist ) * i ) });
+  }
 }
 
 + DMXCue {
