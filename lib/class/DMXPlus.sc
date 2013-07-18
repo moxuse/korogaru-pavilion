@@ -35,12 +35,34 @@ DMXRGBCue : DMXSubCue {
 		arr.do({|item| data.put(item+2,color.blue)});
 	}
 
+  dvidedData { arg fromData_, toData_, dist_, index_;
+    var divVal;
+
+    if(fromData_ == toData_,{
+      ^fromData_;
+    });
+
+    if ( fromData_ > toData_, {
+      divVal = ( (fromData_ - toData_) / dist_ ) * index_ ;
+    },{
+      divVal = ( (toData_ - fromData_) / dist_ ) * index_ ;
+    });
+
+    ^divVal;
+  }
+
   gradationRange { arg from, to, fromColor, toColor, step = 1;
     var arr = (from, from + ( step * rgbOffset )..to);
     var dist = (to - from)/rgbOffset;
-    arr.do({|item,i| data.put(item, ( ( max(fromColor.red, toColor.red) - min(fromColor.red, toColor.red) ) / dist ) * i )});
-		arr.do({|item,i| data.put(item+1, ( ( max(fromColor.green, toColor.green) - min(fromColor.green, toColor.green) ) / dist ) * i ) });
-		arr.do({|item,i| data.put(item+2, ( ( max(fromColor.blue, toColor.blue) - min(fromColor.blue, toColor.blue) ) / dist ) * i ) });
+    arr.do({|item,i|
+      var putDataR, putDataG, putDataB;
+      putDataR = this.dvidedData( fromColor.red, toColor.red, dist, i );
+      putDataG = this.dvidedData( fromColor.green, toColor.green, dist, i );
+      putDataB = this.dvidedData( fromColor.blue, toColor.blue, dist, i );
+      data.put(item, putDataR);
+      data.put(item+1, putDataG);
+      data.put(item+2, putDataB);
+    });
   }
 }
 
