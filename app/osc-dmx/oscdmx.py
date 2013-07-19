@@ -49,7 +49,7 @@ def quit_callback(path, tags, args, source):
 def each_frame():
   server.timed_out = False
   while not server.timed_out:
-      server.handle_request()
+    server.handle_request()
 
 def setupServer():
   global server
