@@ -173,16 +173,16 @@ z = Routine({
 		g = DMXCue.new();
 		(0,1..511).do({|i| g.put(i, 0.0)});
 
-		m.currentCue_(g);
+		d.currentCue_(g);
 		//NetAddr("localhost",5000).sendMsg("/dmx",g.value.asRawInt8);
 		y = DMXRGBCue.new();
 		y.range(318,509,Color(0.03221875, 0.001, 1),1);
 		y.range(8,209,Color(1.0, 0.5, 0.00213),1);
-		y.range(190,289,Color(0.0, 0.005, 0.8213),1);
+    y.gradationRange(190,289,Color(0.0, 0.005, 0.8213),Color(1.0, 1.0, 0.0),1);
 
 		"fade end".postln;
 		//d.fade(g,2.0,'linear',0.08);
-		m.fadeOSC(NetAddr("localhost",5000), y, 10.0,'linear',0.05);
+		d.fadeOSC(NetAddr("localhost",5000), y, 10.0,'linear',0.05);
 		11.0.wait;
 
 	}
