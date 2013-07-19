@@ -7,6 +7,7 @@ var wind = Window.new(\color_scene_maker, Rect(10,1600,500,200));
 var d2 = Slider2D.new(wind);
 var txf = QTextField.new(wind,Rect(180,80,250,60)).alpha_(0.8);
 var btn = QButton.new(wind,Rect(180 ,0, 200, 60));
+var btn2 = QButton.new(wind,Rect(400 ,0, 50, 60));
 var vt = Slider(wind, Rect(150, 0, 20, 150)).value_(1);
 var nb_from = QNumberBox(wind, Rect(0,160,80,30));
 var nb_to = QNumberBox(wind, Rect(120,160,80,30));
@@ -38,6 +39,13 @@ btn.action_({
 	 ("echo \"" ++ tx ++ "\"| pbcopy").unixCmd;
 });
 
+btn2.action_({
+	var tx;
+	txf.value_(colorString);
+	tx = "x = DMXRGBCue.new();\nx.gradationRange(" ++ nb_from.value ++ "," ++ nb_to.value ++ "," ++ colorString ++ "," ++ colorString ++ "," ++  nb_step.value ++ ");";
+	 ("echo \"" ++ tx ++ "\"| pbcopy").unixCmd;
+});
+
+
 wind.front;
 )
-
