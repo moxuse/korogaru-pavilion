@@ -32,7 +32,7 @@ def handle_timeout(self):
 
 def user_callback(path, tags, args, source):
   i = 0
-  print ("/dmx data: " ,path,tags,ord(args[0][0]),source) 
+  #print ("/dmx data: " ,path,tags,ord(args[0][0]),source) 
   for item in args[0]:
     #print(i, ord(item))
     dmx_frame[i] = ord(item)
@@ -84,7 +84,7 @@ def writeDMX():
     packet.append(chr(dmx_frame[j]))
       
   packet.append(chr(END_VAL))
-  print(packet)
+  #print(packet)
   com.write(''.join(packet)) 
 
 
