@@ -23,27 +23,27 @@ txf.backColor_(Color.black);
 txf.focusGainedAction_({var cop=txf.value; cop.postln; ("echo \"" ++ cop.asString ++ "\"| pbcopy").unixCmd; });
 txf.stringColor_(Color.white);
 d2.action_({|sl|
-	color = Color.hsv(min(0.999, sl.x), min(0.999, 1-sl.y), vt.value, 1);
-	d2.background_(Color.hsv(min(0.999, sl.x), min(0.999, 1-sl.y), vt.value, 1));
-	wind.refresh;
+  color = Color.hsv(min(0.999, sl.x), min(0.999, 1-sl.y), vt.value, 1);
+  d2.background_(Color.hsv(min(0.999, sl.x), min(0.999, 1-sl.y), vt.value, 1));
+  wind.refresh;
 });
 d2.mouseUpAction_({colorString = "Color("++color.red.asString ++ "," + color.green.asString ++ "," + color.blue.asString++")";
-	("echo \"" ++colorString++"\"| pbcopy").unixCmd;
-	txf.value_(colorString);
+  ("echo \"" ++colorString++"\"| pbcopy").unixCmd;
+  txf.value_(colorString);
 });
 
 btn.action_({
-	var tx;
-	txf.value_(colorString);
-	tx = "x = DMXRGBCue.new();\nx.range(" ++ nb_from.value ++ "," ++ nb_to.value ++ "," ++ colorString ++ "," ++ nb_step.value ++ ");";
-	 ("echo \"" ++ tx ++ "\"| pbcopy").unixCmd;
+  var tx;
+  txf.value_(colorString);
+  tx = "x = DMXRGBCue.new();\nx.range(" ++ nb_from.value ++ "," ++ nb_to.value ++ "," ++ colorString ++ "," ++ nb_step.value ++ ");";
+  ("echo \"" ++ tx ++ "\"| pbcopy").unixCmd;
 });
 
 btn2.action_({
-	var tx;
-	txf.value_(colorString);
-	tx = "x = DMXRGBCue.new();\nx.gradationRange(" ++ nb_from.value ++ "," ++ nb_to.value ++ "," ++ colorString ++ "," ++ colorString ++ "," ++  nb_step.value ++ ");";
-	 ("echo \"" ++ tx ++ "\"| pbcopy").unixCmd;
+  var tx;
+  txf.value_(colorString);
+  tx = "x = DMXRGBCue.new();\nx.gradationRange(" ++ nb_from.value ++ "," ++ nb_to.value ++ "," ++ colorString ++ "," ++ colorString ++ "," ++  nb_step.value ++ ");";
+  ("echo \"" ++ tx ++ "\"| pbcopy").unixCmd;
 });
 
 
