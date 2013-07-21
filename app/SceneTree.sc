@@ -14,13 +14,13 @@ var scenes  = [
 ];
 
 var synthdefs  = [
-  ~appDir++"synths/testSynths.sc",
-  ~appDir++"synths/testSynths.sc"
+  ~appDir++"synths/MasterVolumeSynth.sc",
+  ~appDir++"SimplePlayer.sc"
 ];
 
 synthdefs.do({|defs| defs.loadPaths()});
 scenes.do({|scene| scene.loadPaths()});
 
-~scenes = [\testScene, \testScene2, \testScene2];
+~scenes = [\testScene, \testScene2, \testScene];
 
 )
