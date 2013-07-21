@@ -7,7 +7,7 @@ Wrten by Koichiro Mori @ moxuss.org 2013
 
 */
 (
-var wind,lab,volumeLabel,but,volkonob,scenelab,statuslab,stopSeqBut,nextSceneBtn;
+var wind,lab,volumeLabel,but,volkonob,scenelab,statuslab,stopSeqBut,nextSceneBtn,bkOutBtn;
 
 ~appDir = "/dev-app/korogaru-pavilion/app/";
 ~oscProcesses = [];
@@ -33,6 +33,11 @@ scenelab.string = "current scene: "++"unknown";
 but = QButton(~mianConsole, Rect(60,300,180,30) ).action_({
   ~oscProcesses.do({|item| ("killall osc-dmx"++item).unixCmd; });
 }).states_([["Close DMX-OSC Port",Color.red]]);
+
+bkOutBtn = QButton(~mianConsole, Rect(60,220,120,30) ).action_({
+  ~mainDMX.blackoutOSC(~netAddr,2,3);
+  Tdef(\main).pause;
+}).states_([["Black Out",Color.black]]);
 
 stopSeqBut = QButton(~mianConsole, Rect(60,260,160,30) ).action_({|but|
   switch ( but.value,
