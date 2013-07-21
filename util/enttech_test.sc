@@ -1,15 +1,14 @@
 d = DMX.new;
-//d.maxchannels =512;
 
-SerialPort.devices
-
-e = EntTecDMXUSBPro.new( "/dev/tty.usbserial-EN119503" );
-e = EntTecDMXUSBProMk2.new( "/dev/tty.usbserial-ENVWHYEN" );
-
-
-d.device = e;
-(0,1..511).do({|i| c.put(i, 0.2.rand)});
 c = DMXCue.new();
+3.do({|i| c.put(i+19, 1.0); i.postln;});
+(0,1..511).do({|i| c.put(i, 0)});
+g = DMXRGBCue.new();
+g.gradationRange(0,146,Color(1,1,1), Color(0,0,0),1);
+
+c.merge(g);
+
+NetAddr("localhost",5000).sendMsg("/dmx",c.asRawInt8);
 f = DMXCue.new();
 
 
@@ -115,16 +114,16 @@ f = DMXSubCue.new();
 ~strobC = Pseq([
   Pfuncn({
     Synth.new(\click);
-    (0,1..511).do({|i| g.put(i, 0.5.rand)});
+    (0,1..511).do({|i| g.put(i, 0.5)});
     "this is a".postln;
     g;
   }, 10),
   Pfuncn({
     Synth.new(\click);
     "this is b".postln;
-    (0,1..511).do({|i| g.put(i, 1.0)});
+    (0,1..511).do({|i| g.put(i, [1.0,0].choose)});
     g;
-  }, 10)
+  }, 30)
 ], 2);
 
 ~strobA = Pseq([
@@ -133,14 +132,14 @@ f = DMXSubCue.new();
     Synth.new(\click);
     (0,1..511).do({|i| g.put(i, 0.0)});
     g;
-  }, 10),
+  }, 30),
 
   Pfuncn({
     Synth.new(\click);
     (0,1..511).do({|i| g.put(i, 1.0.rand)});
     "scene A is b".postln;
     g;
-  }, 10)
+  }, 30)
 
 ],2);
 
@@ -151,46 +150,51 @@ f = DMXSubCue.new();
 
 p = Routine({
   var addr = NetAddr("localhost",5000);
-  loop{
-/*    ~strobC.do {|value|
+ loop{
+    ~strobC.do {|value|
 
-      NetAddr("10.4.0.58",5000).sendMsg("/dmx",value.asRawInt8);
-      addr.sendMsg("/dmx",value.asRawInt8);
-      0.1.wait;
+     //NetAddr("10.4.0.58",5000).sendMsg("/dmx",value.asRawInt8);
+     addr.sendMsg("/dmx",value.asRawInt8);
+     0.05.wait;
 
-    };
+   };
 
-    1.0.wait;
+   1.wait;
 
-    ~strobA.do {|value|
+   ~strobA.do {|value|
 
-      NetAddr("10.4.0.58",5000).sendMsg("/dmx",value.asRawInt8);
-      addr.sendMsg("/dmx",value.asRawInt8);
-      0.1.wait;
+     //NetAddr("10.4.0.58",5000).sendMsg("/dmx",value.asRawInt8);
+     addr.sendMsg("/dmx",value.asRawInt8);
+     0.05.wait;
 
-    };
+   };
 
-    1.0.wait;*/
+   1.wait;
 
     Synth.new(\click);
+    0.0125.wait;
     "fade start".postln;
     g = DMXCue.new();
     (0,1..511).do({|i| g.put(i, 0.0)});
 
+    v = DMXRGBCue.new();
+    v.range(0,509,Color(1.0, 1.0, 1.0),1);
+    g.merge(v);
     d.currentCue_(g);
+
     //NetAddr("localhost",5000).sendMsg("/dmx",g.value.asRawInt8);
     y = DMXRGBCue.new();
-    y.range(318,509,Color(0.03221875, 0.001, 1),1);
-    y.range(8,209,Color(1.0, 0.5, 0.00213),1);
-    y.gradationRange(190,289,Color(0.0, 0.005, 0.8213),Color(1.0, 1.0, 0.0),1);
+    y.range(0,509,Color(1.0, 0.001, 1.0),1);
 
     "fade end".postln;
     //d.fade(g,2.0,'linear',0.08);
-    d.fadeOSC(NetAddr("localhost",5000), y, 0.8,'linear',0.05);
-    2.0.wait;
+    d.fadeOSC(addr, y, 8.8, 10);
+    9.0.wait;
 
   }
 }).play();
 )
 
+
 p.stop();
+
