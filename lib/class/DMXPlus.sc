@@ -55,14 +55,26 @@ DMXRGBCue : DMXSubCue {
     var arr = (from, from + ( step * rgbOffset )..to);
     var dist = (to - from)/rgbOffset;
     arr.do({|item,i|
-      var putDataR, putDataG, putDataB;
-      putDataR = this.dvidedData( fromColor.red, toColor.red, dist, i );
-      putDataG = this.dvidedData( fromColor.green, toColor.green, dist, i );
-      putDataB = this.dvidedData( fromColor.blue, toColor.blue, dist, i );
-      data.put(item, putDataR);
-      data.put(item+1, putDataG);
-      data.put(item+2, putDataB);
+      var putData;
+      putData = this.dvidedData( fromColor.red, toColor.red, dist, i );
+      data.put(item, putData);
+      i.postln;
     });
+
+    arr.do({|item,i|
+      var putData;
+      putData = this.dvidedData( fromColor.green, toColor.green, dist, i );
+      data.put(item+1, putData);
+      i.postln;
+    });
+
+    arr.do({|item,i|
+      var putData;
+      putData = this.dvidedData( fromColor.blue, toColor.blue, dist, i );
+      data.put(item+2, putData);
+      i.postln;
+    });
+
   }
 }
 
@@ -93,7 +105,15 @@ DMXRGBCue : DMXSubCue {
 		this.setCue;
 	}
 
-	fadeOSC { arg netAddr, to, time=1.0, curve=\linear, timestep=0.040;
+  blackoutOSC { |netAddr,time,curve|
+		if ( time.isNil, {
+			this.fadeOSC( netAddr, DMXCue.new, 1.0, curve );
+		},{
+			this.fadeOSC( netAddr, DMXCue.new, time, curve );
+		});
+	}
+
+	fadeOSC { arg netAddr, to, time=1.0, curve=\linear, timestep=0.025;
 		var spec, startCue, endCue, nsteps, ddmx, curdmx, tdefname;
     tdefname = ("dmxfade_"++this.hash.asString).asSymbol;
     //tdefname.postln;
