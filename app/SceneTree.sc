@@ -15,7 +15,7 @@ var scenes  = [
 
 var synthdefs  = [
   ~appDir++"synths/MasterVolumeSynth.sc",
-  ~appDir++"SimplePlayer.sc"
+  ~appDir++"synths/SimplePlayer.sc"
 ];
 
 synthdefs.do({|defs| defs.loadPaths()});
