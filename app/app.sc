@@ -11,7 +11,7 @@ var wind,lab,volumeLabel,but,volkonob,scenelab,statuslab,stopSeqBut,nextSceneBtn
 
 ~appDir = "/dev-app/korogaru-pavilion/app/";
 ~oscProcesses = [];
-~netAddr = NetAddr("localhost",57120);
+~netAddr = NetAddr("localhost",5000);
 //////main console
 
 ~mianConsole = QWindow(\main_console,Rect(900,750,400,380));
@@ -21,7 +21,7 @@ statuslab = QStaticText(~mianConsole,Rect(60,80,350,60)).string_("status: unknow
 volkonob = QKnob(~mianConsole, Rect(60,160,50,50));
 
 nextSceneBtn = QButton(~mianConsole, Rect(340,10,30,60) ).action_({
-  ~netAddr.sendMsg("/next_scene", 0);
+   NetAddr("localhost",57120).sendMsg("/next_scene", 0);
 }).states_([[">",Color.black]]);
 
 volkonob.action_({|knob| volumeLabel.string_("main_vollume : "++knob.value.round(1e-2)); s.sendMsg("/n_set", 6000, \amp, knob.value);});
@@ -81,8 +81,7 @@ s.makeGui;
 
 s.waitForBoot({
   var error = nil;
-
-  "python /dev-app/korogaru-pavilion/app/osc-dmx/oscdmx.py -p 5000 -d /dev/tty.usbserial-EN119503".unixCmd { |res, pid|
+  ("python /dev-app/korogaru-pavilion/app/osc-dmx/oscdmx.py -p " ++ ~netAddr.port ++ " -d /dev/tty.usbserial-EN119503").unixCmd { |res, pid|
     {
       if ( res == 1 ,{
         if ("ps aax | grep osc".unixCmdGetStdOut.contains("osc-dmx"),{

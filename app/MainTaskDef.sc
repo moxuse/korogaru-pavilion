@@ -8,7 +8,6 @@ Wrten by Koichiro Mori @ moxuss.org 2013
 */
 
 (
-
 //////// main task def runner ////////
 
 Tdef(\main,{
@@ -24,8 +23,12 @@ Tdef(\main,{
 //////// next scene osc function callback ///////
 
 OSCFunc({|msg|
+  msg.postln;
+  "\n\n\n\n\n\n".postln;
   Tdef(\main).pause;
   Tdef(\main).source = {
+   ("scene_current : "+i+" : "+~scenes[i%~scenes.size]).postln;
+
     inf.do{|i|
       if( i<1 ,{
         Tdef(~scenes[msg[1]]).embed;
@@ -44,5 +47,3 @@ OSCFunc({|msg|
 );
 
 )
-
-// NetAddr("localhost",57120).sendMsg("/next_scene", 1);
