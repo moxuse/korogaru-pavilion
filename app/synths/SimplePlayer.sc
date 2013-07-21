@@ -7,7 +7,7 @@ Wrten by Koichiro Mori @ moxuss.org 2013
 
 */
 
-"this is test Synths".postln;
+"Loaded Simple Plyer Synths".postln;
 
 /*
 SoundFile For Buffer Read
