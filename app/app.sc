@@ -12,6 +12,8 @@ var wind,lab,volumeLabel,but,volkonob,scenelab,statuslab,stopSeqBut,nextSceneBtn
 ~appDir = "/dev-app/korogaru-pavilion/app/";
 ~oscProcesses = [];
 ~netAddr = NetAddr("localhost",5000);
+~mainDMX = DMX.new();
+~mainCue = DMXCue.new();
 //////main console
 
 ~mianConsole = QWindow(\main_console,Rect(900,750,400,380));

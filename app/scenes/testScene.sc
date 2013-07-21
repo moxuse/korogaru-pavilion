@@ -12,6 +12,31 @@ Wrten by Koichiro Mori @ moxuss.org 2013
 
 Tdef(\testScene_subA,{
   //"testScene__subA__dayo".postln;
+  3.do{
+    var newCue;
+    var newColorCue;
+    Synth.new(\click);
+    0.0125.wait;
+    "fade start".postln;
+    g = DMXCue.new();
+    (0,1..511).do({|i| g.put(i, 0.0)});
+
+    newCue = DMXRGBCue.new();
+    newCue.range(0,509,Color(1.0, 1.0, 1.0),1);
+    ~mainCue.merge(newCue);
+    ~mainDMX.currentCue_(~mainCue);
+
+    //NetAddr("localhost",5000).sendMsg("/dmx",g.value.asRawInt8);
+    newColorCue = DMXRGBCue.new();
+    newColorCue.range(0,509,Color(1, 0.375625, 0.001),1);
+
+    "fade end".postln;
+    //d.fade(g,2.0,'linear',0.08);
+    ~mainDMX.fadeOSC(~netAddr, newColorCue, 8.8, 10);
+    9.0.wait;
+
+  };
+
   0.25.wait;
 });
 
@@ -23,7 +48,7 @@ Tdef(\testScene_subB,{
 
 Tdef(\testScene,{
   (Date.getDate.asString + " started scene _testScene").postln;
-  3.do{
+  1.do{
     Tdef(\testScene_subA).embed;
     Tdef(\testScene_subB).embed
   }
