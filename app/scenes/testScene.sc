@@ -59,7 +59,7 @@ Tdef(\testScene2, {
   1.do{
     (Date.getDate.asString + " started scene _testScene2").postln;
     Tdef(\randomRGB).embed;
-    Tdef(\flexWave).embed;
+    Tdef(\flexBlink).embed;
   }
 });
 
@@ -90,7 +90,7 @@ Tdef(\randomRGB, {
 FlexWave
 */
 
-Tdef(\flexWave, {
+Tdef(\flexBlink, {
   var timeSpan = 130; // 0~250
   timeSpan.do{|i|
     var newCue,sin1, sin2;
