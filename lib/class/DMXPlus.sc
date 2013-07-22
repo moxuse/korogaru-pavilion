@@ -71,7 +71,6 @@ DMXRGBCue : DMXSubCue {
       putData = this.dvidedData( fromColor.blue, toColor.blue, dist, i );
       data.put(item+2, putData);
     });
-   data.postln;
   }
 }
 

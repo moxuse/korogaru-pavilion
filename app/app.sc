@@ -10,10 +10,15 @@ Wrten by Koichiro Mori @ moxuss.org 2013
 var wind,lab,volumeLabel,but,volkonob,scenelab,statuslab,stopSeqBut,nextSceneBtn,bkOutBtn;
 
 ~appDir = "/dev-app/korogaru-pavilion/app/";
-~oscProcesses = [];
-~netAddr = NetAddr("localhost",5000);
-~mainDMX = DMX.new();
-~mainCue = DMXCue.new();
+~oscProcesses = [nil,nil];
+~devicePortF = "/dev/tty.usbserial-EN119315";
+~devicePortP = "/dev/tty.usbserial-EN119503";
+~netAddrF = NetAddr("localhost",5000);
+~netAddrP = NetAddr("localhost",5001);
+~mainDMXF = DMX.new();
+~mainDMXP = DMX.new();
+~mainCueF = DMXCue.new();
+~mainCueP = DMXCue.new();
 //////main console
 
 ~mianConsole = QWindow(\main_console,Rect(900,750,400,380));
@@ -35,18 +40,22 @@ but = QButton(~mianConsole, Rect(60,300,180,30) ).action_({
 }).states_([["Close DMX-OSC Port",Color.red]]);
 
 bkOutBtn = QButton(~mianConsole, Rect(60,220,120,30) ).action_({
-  ~mainDMX.blackoutOSC(~netAddr,2,3);
-  Tdef(\main).pause;
+  ~mainDMXF.blackoutOSC(~netAddrF,2,3);
+  ~mainDMXP.blackoutOSC(~netAddrP,2,3);
+  Tdef(\mainF).pause;
+  Tdef(\mainP).pause;
   stopSeqBut.value_(1);
 }).states_([["Black Out",Color.black]]);
 
 stopSeqBut = QButton(~mianConsole, Rect(60,260,160,30) ).action_({|but|
   switch ( but.value,
     0, {
-      Tdef(\main).resume;
+      Tdef(\mainF).resume;
+      Tdef(\mainP).resume;
     },
     1, {
-      Tdef(\main).pause;
+      Tdef(\mainF).pause;
+      Tdef(\mainP).pause;
   });
   but.value.postln;
 }).states_([["Stop Sequence",Color.blue],["Start Sequence",Color.gray]]);
@@ -89,14 +98,34 @@ s.makeGui;
 
 s.waitForBoot({
   var error = nil;
-  ("python /dev-app/korogaru-pavilion/app/osc-dmx/oscdmx.py -p " ++ ~netAddr.port ++ " -d /dev/tty.usbserial-EN119503").unixCmd { |res, pid|
+  ("python /dev-app/korogaru-pavilion/app/osc-dmx/oscdmx.py -p " ++ ~netAddrF.port ++ " -d " ++ ~devicePortF).unixCmd { |res, pid|
     {
       if ( res == 1 ,{
-        if ("ps aax | grep osc".unixCmdGetStdOut.contains("osc-dmx"),{
+        if ("ps aax | grep osc".unixCmdGetStdOut.contains("osc-dmx" ++ ~netAddrF.port.asString),{
           ~alert.value( "Already running osc-dmx process..." );
-          },{
-            ~alert.value( "Could not opgen Serialport" );
-            error = 1;
+        },{
+          ~alert.value( "Could not opgen Serialport" );
+          error = 1;
+        });
+
+        },{
+          "stoped python osc listener".postln;
+      });
+    }.fork(AppClock);
+
+    res.postln;
+    pid.postln;
+  };
+
+
+  ("python /dev-app/korogaru-pavilion/app/osc-dmx/oscdmx.py -p " ++ ~netAddrP.port ++ " -d " ++ ~devicePortP).unixCmd { |res, pid|
+    {
+      if ( res == 1 ,{
+        if ("ps aax | grep osc".unixCmdGetStdOut.contains("osc-dmx"++ ~netAddrP.port.asString),{
+          ~alert.value( "Already running osc-dmx process..." );
+        },{
+          ~alert.value( "Could not opgen Serialport" );
+          error = 1;
         });
 
         },{
@@ -110,9 +139,16 @@ s.waitForBoot({
 
   2.0.wait; //wait for error
 
-  if ("ps aax | grep osc".unixCmdGetStdOut.contains("osc-dmx"),{
+  if ("ps aax | grep osc".unixCmdGetStdOut.contains("osc-dmx5000"),{
     ~oscProcesses.add("5000");
+    "5000-------------------".postln;
   });
+
+  if ("ps aax | grep osc".unixCmdGetStdOut.contains("osc-dmx5001"),{
+    ~oscProcesses.add("5001");
+        "5001-------------------".postln;
+  });
+
 
   if ( nil == error ,{
     fork{
@@ -123,7 +159,8 @@ s.waitForBoot({
 
       1.0.wait;
       "start scens -- ".postln;
-      Tdef(\main).play;
+      Tdef(\mainF).play;
+      Tdef(\mainP).play;
     }
 
   });

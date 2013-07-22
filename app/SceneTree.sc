@@ -21,6 +21,7 @@ var synthdefs  = [
 synthdefs.do({|defs| defs.loadPaths()});
 scenes.do({|scene| scene.loadPaths()});
 
-~scenes = [\testScene, \testScene2, \testScene];
+~scenesP = [ \testScene ];
+~scenesF = [ \testScene2 ];
 
 )
