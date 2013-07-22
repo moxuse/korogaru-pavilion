@@ -37,6 +37,7 @@ but = QButton(~mianConsole, Rect(60,300,180,30) ).action_({
 bkOutBtn = QButton(~mianConsole, Rect(60,220,120,30) ).action_({
   ~mainDMX.blackoutOSC(~netAddr,2,3);
   Tdef(\main).pause;
+  stopSeqBut.value_(1);
 }).states_([["Black Out",Color.black]]);
 
 stopSeqBut = QButton(~mianConsole, Rect(60,260,160,30) ).action_({|but|
