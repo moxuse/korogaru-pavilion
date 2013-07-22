@@ -43,7 +43,7 @@ DMXRGBCue : DMXSubCue {
     });
 
     if ( fromData_ > toData_, {
-      divVal = ( (fromData_ - toData_) / dist_ ) * index_ ;
+      divVal = fromData_ - ( ( (fromData_ - toData_) / dist_ ) * index_ );
     },{
       divVal = ( (toData_ - fromData_) / dist_ ) * index_ ;
     });
@@ -53,28 +53,25 @@ DMXRGBCue : DMXSubCue {
 
   gradationRange { arg from, to, fromColor, toColor, step = 1;
     var arr = (from, from + ( step * rgbOffset )..to);
-    var dist = (to - from)/rgbOffset;
+    var dist = (to - from) / rgbOffset;
     arr.do({|item,i|
       var putData;
       putData = this.dvidedData( fromColor.red, toColor.red, dist, i );
       data.put(item, putData);
-      i.postln;
     });
 
     arr.do({|item,i|
       var putData;
       putData = this.dvidedData( fromColor.green, toColor.green, dist, i );
       data.put(item+1, putData);
-      i.postln;
     });
 
     arr.do({|item,i|
       var putData;
       putData = this.dvidedData( fromColor.blue, toColor.blue, dist, i );
       data.put(item+2, putData);
-      i.postln;
     });
-
+   data.postln;
   }
 }
 
