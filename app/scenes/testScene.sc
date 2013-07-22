@@ -48,6 +48,7 @@ Tdef(\testScene_subA, {
 Tdef(\testScene, {
   (Date.getDate.asString + " started scene _testScene").postln;
   1.do{
+    Tdef(\poleWave).embed;
     Tdef(\testScene_subA).embed
   }
 });
@@ -60,6 +61,11 @@ Tdef(\testScene2, {
     (Date.getDate.asString + " started scene _testScene2").postln;
     Tdef(\randomRGB).embed;
     Tdef(\flexBlink).embed;
+    Tdef(\flexBlink).embed;
+    Tdef(\flexBlink).embed;
+    Tdef(\flexBlink).embed;
+    Tdef(\flexBlink).embed;
+    Tdef(\flexBlink).embed;
   }
 });
 
@@ -71,7 +77,7 @@ randomRGB
 */
 
 Tdef(\randomRGB, {
-  var count = 30;
+  var count = 10;
   "randomRGB".postln;
   count.do{
     var newCue;
@@ -81,13 +87,13 @@ Tdef(\randomRGB, {
     });
     ~mainCueF.merge(newCue);
     ~netAddrF.sendMsg("/dmx", ~mainCueF.asRawInt8);
-    0.05.wait;
+    0.025.wait;
   };
 });
 
 
 /*
-FlexWave
+FlexBlink
 */
 
 Tdef(\flexBlink, {
@@ -108,3 +114,24 @@ Tdef(\flexBlink, {
 });
 
 
+/*
+PoleWave
+*/
+
+Tdef(\poleWave, {
+  var speed = 0.05;
+  var count = 18;
+  count.do{|i|
+    var newCue;
+    newCue = DMXRGBCue.new();
+    newCue.range(KPPole.head,KPPole.tail,Color(0,0,0));
+    newCue.gradationRange(KPPole.heads[i],KPPole.tails[i],Color(0.8857421875, 0.0859375, 1),Color(0.31494140625, 0.9375, 0.41221618652344));
+    ~mainCueP.merge(newCue);
+    ~netAddrP.sendMsg("/dmx", ~mainCueP.asRawInt8);
+
+    speed.wait;
+  }
+});
+
+
+Tdef(\mainP).play
