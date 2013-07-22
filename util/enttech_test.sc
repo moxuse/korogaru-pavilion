@@ -1,16 +1,18 @@
 d = DMX.new;
-
+d.currentCue_(c);
 c = DMXCue.new();
 3.do({|i| c.put(i+19, 1.0); i.postln;});
 (0,1..511).do({|i| c.put(i, 0)});
 g = DMXRGBCue.new();
-g.gradationRange(0,146,Color(1,1,1), Color(0,0,0),1);
+g.gradationRange(0,146,Color(1,1,0), Color(0,0,1));
 
 c.merge(g);
 
 NetAddr("localhost",5000).sendMsg("/dmx",c.asRawInt8);
-f = DMXCue.new();
+~mainDMX.blackoutOSC(NetAddr("localhost",5000),2,3);
 
+f = DMXCue.new();
+c.fade
 
 /*k = DMXLight(\noise);
 k.setStrobe((0,1..511), (0,1..511));*/
@@ -75,8 +77,8 @@ o = DMXSubCue.new
 
 
 // send the settings of the cue to the strobe:
-d.currentCue = c;
-d.setCue;
+~mainDMX.currentCue = ~mainCue;
+~mainDMX.setCue;
 
 // strobe every two seconds at full intensity
 Pdef( 'strobing', Pbind( \dur, 2, \strobe, Pfunc({ c.put( 1, 255); d.setCue;
@@ -104,7 +106,6 @@ SynthDef(\click,{
 d = DMX.new;
 //e = EntTecDMXUSBPro.new( "/dev/tty.usbserial-EN119503" );
 //e = EntTecDMXUSBProMk2.new( "/dev/tty.usbserial-ENVWHYEN" );
-d.device = e;
 g = DMXCue.new();
 c = DMXCue.new();
 f = DMXSubCue.new();
@@ -151,7 +152,7 @@ f = DMXSubCue.new();
 p = Routine({
   var addr = NetAddr("localhost",5000);
  loop{
-    ~strobC.do {|value|
+/*    ~strobC.do {|value|
 
      //NetAddr("10.4.0.58",5000).sendMsg("/dmx",value.asRawInt8);
      addr.sendMsg("/dmx",value.asRawInt8);
@@ -169,7 +170,7 @@ p = Routine({
 
    };
 
-   1.wait;
+   1.wait;*/
 
     Synth.new(\click);
     0.0125.wait;
