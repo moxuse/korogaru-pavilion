@@ -11,10 +11,10 @@ var wind,lab,volumeLabel,but,volkonob,scenelab,statuslab,stopSeqBut,nextSceneBtn
 
 ~appDir = "/dev-app/korogaru-pavilion/app/";
 ~oscProcesses = [nil,nil];
-~devicePortF = "/dev/tty.usbserial-EN119315";
 ~devicePortP = "/dev/tty.usbserial-EN119503";
-~netAddrF = NetAddr("localhost",5000);
-~netAddrP = NetAddr("localhost",5001);
+~devicePortF = "/dev/tty.usbserial-EN119315";
+~netAddrP = NetAddr("localhost",5000);
+~netAddrF = NetAddr("localhost",5001);
 ~mainDMXF = DMX.new();
 ~mainDMXP = DMX.new();
 ~mainCueF = DMXCue.new();

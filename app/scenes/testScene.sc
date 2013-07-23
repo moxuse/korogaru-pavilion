@@ -62,10 +62,6 @@ Tdef(\testScene2, {
     Tdef(\randomRGB).embed;
     Tdef(\flexBlink).embed;
     Tdef(\flexBlink).embed;
-    Tdef(\flexBlink).embed;
-    Tdef(\flexBlink).embed;
-    Tdef(\flexBlink).embed;
-    Tdef(\flexBlink).embed;
   }
 });
 
@@ -128,7 +124,6 @@ Tdef(\poleWave, {
     newCue.gradationRange(KPPole.heads[i],KPPole.tails[i],Color(0.8857421875, 0.0859375, 1),Color(0.31494140625, 0.9375, 0.41221618652344));
     ~mainCueP.merge(newCue);
     ~netAddrP.sendMsg("/dmx", ~mainCueP.asRawInt8);
-
     speed.wait;
   }
 });
