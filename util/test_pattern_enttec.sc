@@ -5,8 +5,8 @@ lighting test
 */
 
 (
-"python /dev-app/korogaru-pavilion/app/osc-dmx/oscdmx.py -p 5000 -d /dev/tty.usbserial-EN119503	".unixCmd
-"python /dev-app/korogaru-pavilion/app/osc-dmx/oscdmx.py -p 5001 -d /dev/tty.usbserial-EN119315	".unixCmd
+"python /dev-app/korogaru-pavilion/app/osc-dmx/oscdmx.py -p 5000 -d /dev/tty.usbserial-EN119503	".unixCmd;
+"python /dev-app/korogaru-pavilion/app/osc-dmx/oscdmx.py -p 5001 -d /dev/tty.usbserial-EN119315	".unixCmd;
 
 ~dmx1 = DMX.new();
 ~dmx2 = DMX.new();
@@ -99,6 +99,24 @@ Tdef(\stepCheck, {
     NetAddr("localhost",5000).sendMsg("/dmx", ~dmxCue2.asRawInt8);
    ("current pole: "++ i.asString).postln;
    1.0.wait;
+  }
+}).play
+)
+
+Tdef(\stepCheck).stop();
+
+
+(
+Tdef(\stepCheck, {
+  KPPole.heads.size.do{|i|
+    4.do{|j|
+      ~dmxRGBCue1.range(KPPole.head,KPPole.tail,Color(0,0,0));
+      ~dmxRGBCue1.range(KPPole.heads[i] + (j * 3) , (KPPole.heads[i] + (j * 3)) + 2 , Color(1,1,1));
+      ~dmxCue1.merge(~dmxRGBCue1);
+      NetAddr("localhost",5000).sendMsg("/dmx", ~dmxCue2.asRawInt8);
+      ("current pole: "++j.asString ++ " : " ++ i.asString ++ " : " ++ (KPPole.heads[i] + (j*3))).postln;
+      0.5.wait;
+    }
   }
 }).play
 )
