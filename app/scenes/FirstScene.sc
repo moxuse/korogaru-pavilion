@@ -11,13 +11,13 @@ Wrten by Koichiro Mori @ moxuss.org 2013
 
 
 Tdef(\firsScene_sub,{
-  "this is first scene".postln;
-  0.25.wait;
+  "this is [][][][][][]][] first scene".postln;
+  1.5.wait;
 });
 
 
 Tdef(\firstScene,{
-  (Date.getDate.asString + " started scene _testScene").postln;
+  (Date.getDate.asString + " started scene _first Scene").postln;
   1.do{
     Tdef(\firsScene_sub).embed;
     Tdef(\firsScene_sub).embed
@@ -27,3 +27,18 @@ Tdef(\firstScene,{
 /////////////////////////////
 
 
+
+
+Tdef(\secondScene_sub,{
+  "------------------------------- second scene".postln;
+  0.5.wait;
+});
+
+
+Tdef(\secondScene,{
+  (Date.getDate.asString + " started scene _second Scene").postln;
+  1.do{
+    Tdef(\secondScene_sub).embed;
+    Tdef(\secondScene_sub).embed
+  }
+});

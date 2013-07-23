@@ -20,8 +20,8 @@ lighting test
 ~dmxRGBCue1.range(KPPole.head, KPPole.tail, Color(1,1,1));
 ~dmxCue1.merge(~dmxRGBCue1);
 
-~dmxRGBCue2.range(KPFlex.head, KPFlex.tail, Color(1,1,1));
-~dmxCue2.merge(~dmxRGBCue1);
+~dmxRGBCue2.range(00, 509, Color(1,1,1));
+~dmxCue2.merge(~dmxRGBCue2);
 
 NetAddr("localhost",5000).sendMsg("/dmx", ~dmxCue1.asRawInt8);
 NetAddr("localhost",5001).sendMsg("/dmx", ~dmxCue2.asRawInt8);
@@ -55,7 +55,6 @@ NetAddr("localhost",5000).sendMsg("/dmx", ~dmxCue1.asRawInt8);
 )
 
 /////////////////////////////
-
 //Flex
 
 // red
@@ -80,6 +79,24 @@ NetAddr("localhost",5001).sendMsg("/dmx", ~dmxCue2.asRawInt8);
 ~dmxCue1.merge(~dmxRGBCue1);
 NetAddr("localhost",5001).sendMsg("/dmx", ~dmxCue1.asRawInt8);
 )
+
+
+//step check
+
+(
+Tdef(\stepCheck, {
+  KPFlex.rgbSize.do{|i|
+    ~dmxRGBCue2.range(KPFlex.head,KPFlex.tail,Color(0,0,0));
+    ~dmxRGBCue2.range(i*3, i*3+3, Color(1,1,1));
+    ~dmxCue2.merge(~dmxRGBCue2);
+    NetAddr("localhost",5001).sendMsg("/dmx", ~dmxCue2.asRawInt8);
+   ("current flex: "++ i.asString).postln;
+   1.0.wait;
+  }
+}).play
+)
+
+Tdef(\stepCheck).stop();
 
 /////////////////////////////////
 
@@ -115,7 +132,7 @@ Tdef(\stepCheck, {
       ~dmxCue1.merge(~dmxRGBCue1);
       NetAddr("localhost",5000).sendMsg("/dmx", ~dmxCue1.asRawInt8);
       ("current pole: "++j.asString ++ " : " ++ i.asString ++ " : " ++ (KPPole.heads[i] + (j*3))).postln;
-      0.5.wait;
+      0.025.wait;
     }
   }
 }).play

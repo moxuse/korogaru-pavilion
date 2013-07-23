@@ -9,8 +9,8 @@ Wrten by Koichiro Mori @ moxuss.org 2013
 
 (
 var scenes  = [
-  ~appDir++"scenes/testScene.sc",
-  ~appDir++"scenes/testScene.sc"
+//  ~appDir++"scenes/testScene.sc",
+  ~appDir++"scenes/AtomicScene.sc"
 ];
 
 var synthdefs  = [
@@ -21,7 +21,7 @@ var synthdefs  = [
 synthdefs.do({|defs| defs.loadPaths()});
 scenes.do({|scene| scene.loadPaths()});
 
-~scenesP = [ \testScene ];
-~scenesF = [ \testScene2 ];
+~scenesP = [ \atomicScene, \rouletteScene ];
+~scenesF = [ \atomicSceneFlex ];
 
 )

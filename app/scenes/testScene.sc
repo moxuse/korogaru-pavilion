@@ -10,7 +10,7 @@ Wrten by Koichiro Mori @ moxuss.org 2013
 "this is test Scene".postln;
 
 Tdef(\testScene_subA, {
-  var timeSpan = 4;
+  var timeSpan = 10;
 
   2.do{
     var newCue;
@@ -33,7 +33,7 @@ Tdef(\testScene_subA, {
     ~mainDMXP.currentCue_(~mainCueP);
 
     newColorCue = DMXRGBCue.new();
-    newColorCue.range(KPPole.head,KPPole.tail,Color(1.0, 0.0, 0),1);
+    newColorCue.range(KPPole.head,KPPole.tail,Color(0.0, 0.0, 1.0),1);
 
     "fade end".postln;
     ~mainDMXP.fadeOSC(~netAddrP, newColorCue, timeSpan, 10);
@@ -48,6 +48,7 @@ Tdef(\testScene_subA, {
 Tdef(\testScene, {
   (Date.getDate.asString + " started scene _testScene").postln;
   1.do{
+//    Tdef(\randomRGBPole).embed;
     Tdef(\poleWave).embed;
     Tdef(\testScene_subA).embed
   }
@@ -83,7 +84,7 @@ Tdef(\randomRGB, {
     });
     ~mainCueF.merge(newCue);
     ~netAddrF.sendMsg("/dmx", ~mainCueF.asRawInt8);
-    0.025.wait;
+    0.5.wait;
   };
 });
 
@@ -115,18 +116,18 @@ PoleWave
 */
 
 Tdef(\poleWave, {
-  var speed = 0.05;
+  var speed = 0.02;
   var count = 18;
+  1.do{
   count.do{|i|
     var newCue;
     newCue = DMXRGBCue.new();
     newCue.range(KPPole.head,KPPole.tail,Color(0,0,0));
-    newCue.gradationRange(KPPole.heads[i],KPPole.tails[i],Color(0.8857421875, 0.0859375, 1),Color(0.31494140625, 0.9375, 0.41221618652344));
+    newCue.gradationRange(KPPole.heads[i],KPPole.tails[i],Color(1, 1, 1),Color(1, 0, 1));
     ~mainCueP.merge(newCue);
     ~netAddrP.sendMsg("/dmx", ~mainCueP.asRawInt8);
     speed.wait;
   }
+  }
 });
 
-
-Tdef(\mainP).play

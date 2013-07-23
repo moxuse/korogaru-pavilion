@@ -33,10 +33,10 @@ Tdef(\mainF,{
 
 OSCFunc({|msg|
   msg.postln;
-  "\n\n\n\n\n\n".postln;
-  Tdef(\mainF).pause;
+  "\n\n\n\n\n\n messasge recieved !!!!!!!!!!!!!!!!!!!!!!!".postln;
+/*  Tdef(\mainF).pause;
   Tdef(\mainF).source = {
-   ("scene_current : "+i+" : "+~scenesP[i%~scenesP.size]).postln;
+    ("scene_current : "+i+" : "+~scenesP[i%~scenesP.size]).postln;
 
     inf.do{|i|
       if( i<1 ,{
@@ -49,15 +49,15 @@ OSCFunc({|msg|
     };
 
   };
-  Tdef(\mainF).resume;
+  Tdef(\mainF).resume;*/
 
   Tdef(\mainP).pause;
   Tdef(\mainP).source = {
-   ("scene_current : "+i+" : "+~scenesP[i%~scenesP.size]).postln;
 
     inf.do{|i|
+      ("scene_current : "+i+" : "+~scenesP[i%~scenesP.size]).postln;
       if( i<1 ,{
-        Tdef(~scenesP[msg[1]]).embed;
+        Tdef(~scenesP[0]).embed;
         },{
           Tdef(~scenesP[i%~scenesP.size]).embed;
       });
@@ -74,3 +74,6 @@ OSCFunc({|msg|
 );
 
 )
+
+//Tdef(\mainP).play;
+//NetAddr("localhost",NetAddr.langPort).sendMsg("/next_scene");
