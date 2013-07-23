@@ -128,11 +128,11 @@ Tdef(\stepCheck).stop();
 //////////////////////////
 
 //kill
-
+(
 "killall osc-dmx5000".unixCmd;
 "killall osc-dmx5001".unixCmd;
 
 
 "ps ax | grep  osc".unixCmd;
-
+)
 /////////////////////////
