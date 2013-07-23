@@ -96,7 +96,7 @@ Tdef(\stepCheck, {
     ~dmxRGBCue1.range(KPPole.head,KPPole.tail,Color(0,0,0));
     ~dmxRGBCue1.range(KPPole.heads[i], KPPole.tails[i], Color(1,1,1));
     ~dmxCue1.merge(~dmxRGBCue1);
-    NetAddr("localhost",5000).sendMsg("/dmx", ~dmxCue2.asRawInt8);
+    NetAddr("localhost",5000).sendMsg("/dmx", ~dmxCue1.asRawInt8);
    ("current pole: "++ i.asString).postln;
    1.0.wait;
   }
@@ -113,7 +113,7 @@ Tdef(\stepCheck, {
       ~dmxRGBCue1.range(KPPole.head,KPPole.tail,Color(0,0,0));
       ~dmxRGBCue1.range(KPPole.heads[i] + (j * 3) , (KPPole.heads[i] + (j * 3)) + 2 , Color(1,1,1));
       ~dmxCue1.merge(~dmxRGBCue1);
-      NetAddr("localhost",5000).sendMsg("/dmx", ~dmxCue2.asRawInt8);
+      NetAddr("localhost",5000).sendMsg("/dmx", ~dmxCue1.asRawInt8);
       ("current pole: "++j.asString ++ " : " ++ i.asString ++ " : " ++ (KPPole.heads[i] + (j*3))).postln;
       0.5.wait;
     }
