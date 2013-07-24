@@ -8,3 +8,65 @@ Wrten by Koichiro Mori @ moxuss.org 2013
 */
 
 "this is Yamaguchi-Yama Scene".postln;
+
+
+Tdef(\yamaguchi_UmiSceneFlex,{
+  (Date.getDate.asString +"playing Yamaguchi-Yama Scene").postln;
+  8.do{
+    Tdef(\fadeYama).embed;
+    Tdef(\fadeYamaRand).embed;
+  };
+
+});
+
+
+Tdef(\fadeYama, {
+  var timeSpan = 10;
+
+ 1.do{
+    var newCue;
+    var newColorCue;
+
+    newCue = DMXRGBCue.new();
+    newCue.range(KPFlex.head,KPFlex.tail,Color(1.0, 0.8, 0.0),1);
+
+    ~mainCueF.merge(newCue);
+    ~mainDMXF.currentCue_(~mainCueF);
+
+    newColorCue = DMXRGBCue.new();
+    newColorCue.range(KPFlex.head,KPFlex.tail,Color(0.0, 1.0, 0.0),1);
+
+    ~mainDMXF.fadeOSC(~netAddrF, newColorCue, timeSpan, 9);
+
+    (timeSpan+0.2).wait;
+  };
+
+  0.25.wait;
+});
+
+
+Tdef(\fadeYamaRand, {
+  var timeSpan = 3;
+  6.do{
+    var newCue;
+    var newColorCue;
+
+    KPFlex.rgbSize.do{|i|
+      newCue = DMXRGBCue.new();
+      newCue.range(i*3, i*3+3, [Color(0.0, 1.0, 0.4.rand), Color(0.2, 1, 0.5.rand)].choose, 1);
+      ~mainCueF.merge(newCue);
+    };
+    ~mainDMXF.currentCue_(~mainCueF);
+
+    KPFlex.rgbSize.do{|i|
+      newColorCue = DMXRGBCue.new();
+      newColorCue.range(i*3, i*3+3, Color(0, 1.0.rand, 0), 1);
+    };
+
+    ~mainDMXF.fadeOSC(~netAddrF, newColorCue, timeSpan, 4);
+
+    (timeSpan+0.2).wait;
+  };
+
+  1.0.wait;
+});
