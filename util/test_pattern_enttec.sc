@@ -75,9 +75,9 @@ NetAddr("localhost",5001).sendMsg("/dmx", ~dmxCue2.asRawInt8);
 
 // blue
 (
-~dmxRGBCue1.range(KPFlex.head, KPFlex.tail, Color(0,0,1));
-~dmxCue1.merge(~dmxRGBCue1);
-NetAddr("localhost",5001).sendMsg("/dmx", ~dmxCue1.asRawInt8);
+~dmxRGBCue2.range(KPFlex.head, KPFlex.tail, Color(0,0,1));
+~dmxCue2.merge(~dmxRGBCue2);
+NetAddr("localhost",5001).sendMsg("/dmx", ~dmxCue2.asRawInt8);
 )
 
 
