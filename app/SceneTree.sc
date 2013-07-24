@@ -12,7 +12,7 @@ var scenes  = [
 //  ~appDir++"scenes/testScene.sc",
   ~appDir++"scenes/AtomicScene.sc",
   ~appDir++"scenes/RouletteScene.sc",
-  ~appDir++"scenes/Yamaguchi-UmiScene.sc"
+  ~appDir++"scenes/Yamaguchi-UmiScene.sc",
   ~appDir++"scenes/Yamaguchi-YamaScene.sc"
 ];
 
@@ -27,7 +27,7 @@ var synthdefs  = [
 synthdefs.do({|defs| defs.loadPaths()});
 scenes.do({|scene| scene.loadPaths()});
 
-~scenesP = [ /*\atomicScene, *//*\rouletteScene*/ \yamaguchi_UmiScene ];
-~scenesF = [ /*\atomicSceneFlex,*/   /*\rouletteSceneFlex ,*/\yamaguchi_YamaSceneFlex ];
+~scenesP = [ /*\atomicScene, \rouletteScene*/ \yamaguchi_UmiScene ];
+~scenesF = [ /*\atomicSceneFlex,\rouletteSceneFlex ,*/\yamaguchi_YamaSceneFlex ];
 
 )

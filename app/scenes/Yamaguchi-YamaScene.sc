@@ -10,7 +10,7 @@ Wrten by Koichiro Mori @ moxuss.org 2013
 "this is Yamaguchi-Yama Scene".postln;
 
 
-Tdef(\yamaguchi_UmiSceneFlex,{
+Tdef(\yamaguchi_YamaSceneFlex,{
   (Date.getDate.asString +"playing Yamaguchi-Yama Scene").postln;
   8.do{
     Tdef(\fadeYama).embed;
@@ -68,5 +68,5 @@ Tdef(\fadeYamaRand, {
     (timeSpan+0.2).wait;
   };
 
-  1.0.wait;
+  0.75.wait;
 });
