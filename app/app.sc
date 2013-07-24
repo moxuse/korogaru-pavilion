@@ -30,7 +30,7 @@ statuslab = QStaticText(~mianConsole,Rect(60,80,350,60)).string_("status: unknow
 volkonob = QKnob(~mianConsole, Rect(60,160,50,50));
 
 nextSceneBtn = QButton(~mianConsole, Rect(340,10,30,60) ).action_({
-   NetAddr("localhost",57120).sendMsg("/next_scene", 0);
+   NetAddr("localhost",57120).sendMsg("/next_scene");
 }).states_([[">",Color.black]]);
 
 volkonob.action_({|knob| volumeLabel.string_("main_vollume : "++knob.value.round(1e-2)); s.sendMsg("/n_set", 6000, \amp, knob.value);});

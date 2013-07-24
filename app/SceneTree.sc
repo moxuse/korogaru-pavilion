@@ -24,6 +24,6 @@ synthdefs.do({|defs| defs.loadPaths()});
 scenes.do({|scene| scene.loadPaths()});
 
 ~scenesP = [ \atomicScene, \rouletteScene, \yamaguchi_UmiScene ];
-~scenesF = [ \atomicSceneFlex ];
+~scenesF = [ \atomicSceneFlex , \rouletteSceneFlex /*\yamaguchi_UmiSceneFlex*/ ];
 
 )

@@ -12,8 +12,9 @@ Wrten by Koichiro Mori @ moxuss.org 2013
 
 Tdef(\mainP,{
     inf.do{|i|
-    ("scene_current P : "+i+" : "+~scenesP[i%~scenesP.size]).postln;
+    ("scene_current P : "+i+" : "+~scenesP[~globalSceneCount%~scenesP.size]).postln;
     ~globalSceneCount = ~globalSceneCount+1;
+    ~refreshConsole.value(Tdef(\mainP).isPlaying, ~scenesP[~globalSceneCount%~scenesP.size]);
     Tdef(~scenesP[~globalSceneCount%~scenesP.size]).embed;
 
   };
