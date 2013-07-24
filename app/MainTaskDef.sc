@@ -11,69 +11,35 @@ Wrten by Koichiro Mori @ moxuss.org 2013
 //////// main task def runner ////////
 
 Tdef(\mainP,{
-
-  inf.do{|i|
+    inf.do{|i|
     ("scene_current P : "+i+" : "+~scenesP[i%~scenesP.size]).postln;
-    Tdef(~scenesP[i%~scenesP.size]).embed;
-    ~refreshConsole.value(Tdef(\mainP).isPlaying, ~scenesP[i%~scenesP.size]);
-    (i%~scenesP.size).postln;
+    ~globalSceneCount = ~globalSceneCount+1;
+    Tdef(~scenesP[~globalSceneCount%~scenesP.size]).embed;
+
   };
-});
+}).play;
 
 Tdef(\mainF,{
-  inf.do{|i|
+    inf.do{|i|
     ("scene_current F : "+i+" : "+~scenesF[i%~scenesF.size]).postln;
-    Tdef(~scenesF[i%~scenesF.size]).embed;
+    ~globalSceneCount = ~globalSceneCount+1;
+    Tdef(~scenesF[~globalSceneCount%~scenesF.size]).embed;
 
   };
-});
-
+}).play;
 
 //////// next scene osc function callback ///////
 
 OSCFunc({|msg|
   msg.postln;
-  "\n\n\n\n\n\n messasge recieved !!!!!!!!!!!!!!!!!!!!!!!".postln;
-/*  Tdef(\mainF).pause;
-  Tdef(\mainF).source = {
-    ("scene_current : "+i+" : "+~scenesP[i%~scenesP.size]).postln;
-
-    inf.do{|i|
-      if( i<1 ,{
-        Tdef(~scenesP[msg[1]]).embed;
-        },{
-          Tdef(~scenesP[i%~scenesP.size]).embed;
-      });
-
-      ~refreshConsole.value(Tdef(\mainF).isPlaying, ~scenesP[i%~scenesP.size];);
-    };
-
-  };
-  Tdef(\mainF).resume;*/
-
-  Tdef(\mainP).pause;
-  Tdef(\mainP).source = {
-
-    inf.do{|i|
-      ("scene_current : "+i+" : "+~scenesP[i%~scenesP.size]).postln;
-      if( i<1 ,{
-        Tdef(~scenesP[0]).embed;
-        },{
-          Tdef(~scenesP[i%~scenesP.size]).embed;
-      });
-
-    };
-
-  };
-  Tdef(\mainP).resume;
-
+  ~globalSceneCount = ~globalSceneCount+1;
+  "globalSceneCount--- ".post;
+  ~globalSceneCount.postln;
+  Tdef(\mainP).reset
   },
-
   '/next_scene',
   nil
 );
 
 )
 
-//Tdef(\mainP).play;
-//NetAddr("localhost",NetAddr.langPort).sendMsg("/next_scene");

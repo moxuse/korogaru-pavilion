@@ -19,6 +19,8 @@ var wind,lab,volumeLabel,but,volkonob,scenelab,statuslab,stopSeqBut,nextSceneBtn
 ~mainDMXP = DMX.new();
 ~mainCueF = DMXCue.new();
 ~mainCueP = DMXCue.new();
+
+~globalSceneCount = 0;
 //////main console
 
 ~mianConsole = QWindow(\main_console,Rect(900,750,400,380));

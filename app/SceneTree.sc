@@ -23,7 +23,7 @@ var synthdefs  = [
 synthdefs.do({|defs| defs.loadPaths()});
 scenes.do({|scene| scene.loadPaths()});
 
-~scenesP = [ \atomicScene, \rouletteScene, \yamaguchi_UmiScene ];
+~scenesP = [ /*\atomicScene, \rouletteScene, \yamaguchi_UmiScene*/ ];
 ~scenesF = [ \atomicSceneFlex ];
 
 )
