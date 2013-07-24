@@ -26,7 +26,7 @@ Tdef(\poleWave, {
   var count = 12;
   var waitTime = 1.004;
   var from = Color(1.0.rand, 1.0.rand, 1.0.rand);
-      var to = Color(1.0.rand, 1.0.rand, 1.0.rand);
+  var to = Color(1.0.rand, 1.0.rand, 1.0.rand);
   25.do{
     count.do{|i|
       var newCue;
@@ -91,3 +91,102 @@ Tdef(\poleWaveReverse, {
     }
   }
 });
+
+
+////////////////////////////////////
+
+// Flex
+
+////////////////////////////////////
+/*
+FlexWave
+*/
+
+Tdef(\rouletteSceneFlex, {
+  (Date.getDate.asString + " started scene Roulette Scene").postln;
+  8.do{
+    Tdef(\flexWave).embed;
+    Tdef(\flexWaveReverse).embed;
+  };
+});
+
+
+Tdef(\flexWave, {
+  var count = KPFlex.rgbSize;
+  var waitTime = 1.004;
+  var color = Color(1.0.rand, 1.0.rand, 1.0.rand);
+  25.do{
+    count.do{|i|
+      var newCue;
+      var idx;
+
+      waitTime = 1.025 * waitTime;
+      if(50<waitTime ,{waitTime=50});
+      idx = (count - i) - 1;
+
+      newCue = DMXRGBCue.new();
+      newCue.range(KPFlex.head,KPFlex.tail,Color(0,0,0));
+      newCue.range(KPPole.heads[idx],KPPole.tails[idx],color);
+
+      ~mainCueF.merge(newCue);
+      ~netAddrF.sendMsg("/dmx", ~mainCueF.asRawInt8);
+
+      (1/waitTime).wait;
+    }
+  }
+});
+
+/*
+FlexWave Reverse
+*/
+
+Tdef(\flexWave, {
+  var count = KPFlex.rgbSize;
+  var waitTime = 1.004;
+  var color = Color(1.0.rand, 1.0.rand, 1.0.rand);
+  25.do{
+    count.do{|i|
+      var newCue;
+      var idx;
+
+      waitTime = 1.025 * waitTime;
+      if(50<waitTime ,{waitTime=50});
+      idx = (count - i) - 1;
+
+      newCue = DMXRGBCue.new();
+      newCue.range(KPFlex.head,KPFlex.tail,Color(0,0,0));
+      newCue.range(KPPole.heads[idx],KPPole.tails[idx],color);
+
+      ~mainCueF.merge(newCue);
+      ~netAddrF.sendMsg("/dmx", ~mainCueF.asRawInt8);
+
+      (1/waitTime).wait;
+    }
+  }
+});
+
+/*
+FlexWave Reverse
+*/
+
+Tdef(\flexWaveReverse, {
+  var count = KPFlex.rgbSize;
+  var waitTime = 240;
+  var color = Color(1.0.rand, 1.0.rand, 1.0.rand);
+
+  8.do{
+    count.do{|i|
+      var newCue;
+      waitTime = 0.95 * waitTime;
+      newCue = DMXRGBCue.new();
+      newCue.range(KPFlex.head,KPFlex.tail,Color(0,0,0));
+
+      newCue.range(KPFlex.heads,KPFlex.tails,color);
+
+      ~mainCueF.merge(newCue);
+      ~netAddrF.sendMsg("/dmx", ~mainCueF.asRawInt8);
+       (1/waitTime).wait;
+    }
+  }
+});
+
