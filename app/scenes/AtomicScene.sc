@@ -87,11 +87,11 @@ RandomRGBFlex
 Tdef(\randomRGBFlex, {
 
   var count = 100;
-  var poleNum = KPFlex.rgbSize+53;
+  var poleNum = KPFlex.rgbSize;
   var waitTime = 1.001;
   count.do{|i|
     var newCue;
-    waitTime = 1.006 * waitTime;
+    waitTime = 1.04 * waitTime;
     newCue = DMXRGBCue.new();
     poleNum.do({|i|
       newCue.put(i*3, [Color(0, 0, 0),Color(1.0, 1.0, 1.0),Color(1.0, 1.0, 1.0),Color(0.0, 0, 1.0),Color(0.0, 1.0, 0),Color(1.0, 0, 0)].choose);
@@ -105,12 +105,12 @@ Tdef(\randomRGBFlex, {
 
 Tdef(\randomRGBFlexReverse, {
 
-  var count = 100;
-  var poleNum = KPFlex.rgbSize+53;
+  var count = 50;
+  var poleNum = KPFlex.rgbSize;
   var waitTime = 50;
   count.do{|i|
     var newCue;
-    waitTime = 0.9994 * waitTime;
+    waitTime = 0.96 * waitTime;
     newCue = DMXRGBCue.new();
     poleNum.do({|i|
       newCue.put(i*3, [Color(0, 0, 0),Color(1.0, 1.0, 1.0),Color(1.0, 1.0, 1.0),Color(0.0, 0, 1.0),Color(0.0, 1.0, 0),Color(1.0, 0, 0)].choose);
