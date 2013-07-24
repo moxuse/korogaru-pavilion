@@ -10,7 +10,7 @@ Wrten by Koichiro Mori @ moxuss.org 2013
 "this is Roulette Scene".postln;
 
 Tdef(\rouletteScene, {
-  (Date.getDate.asString + " started scene Atomic Scene").postln;
+  (Date.getDate.asString + " started scene Roulette Scene").postln;
   8.do{
     Tdef(\poleWave).embed;
     Tdef(\poleWaveReverse).embed;

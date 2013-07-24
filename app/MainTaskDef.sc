@@ -32,14 +32,12 @@ Tdef(\mainF,{
 
 OSCFunc({|msg|
   msg.postln;
-  ~globalSceneCount = ~globalSceneCount+1;
+  Tdef(\mainP).reset;
   "globalSceneCount--- ".post;
   ~globalSceneCount.postln;
-  Tdef(\mainP).reset
   },
   '/next_scene',
   nil
 );
 
 )
-

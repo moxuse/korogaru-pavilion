@@ -10,7 +10,7 @@ Wrten by Koichiro Mori @ moxuss.org 2013
 "this is Yamaguchi-Umi Scene".postln;
 
 Tdef(\yamaguchi_UmiScene, {
-  (Date.getDate.asString + " started scene Atomic Scene").postln;
+  (Date.getDate.asString + " started scene Yamagushi Umi Scene").postln;
   8.do{
     Tdef(\fadeUmi).embed;
     Tdef(\fadeUmiRand).embed;
