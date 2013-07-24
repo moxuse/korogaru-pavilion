@@ -27,6 +27,7 @@ Tdef(\poleWave, {
   var waitTime = 1.004;
   var from = Color(1.0.rand, 1.0.rand, 1.0.rand);
   var to = Color(1.0.rand, 1.0.rand, 1.0.rand);
+  var synthId = [0,1].choose;
   25.do{
     count.do{|i|
       var newCue;
@@ -50,6 +51,11 @@ Tdef(\poleWave, {
       });
       ~mainCueP.merge(newCue);
       ~netAddrP.sendMsg("/dmx", ~mainCueP.asRawInt8);
+      if(0==synthId,{
+        s.sendMsg(9, \rouletteBlip, s.nextNodeID, 0, 1, "out", (i%7/2).round, "midinote", 60+i);
+        },{
+        s.sendMsg(9, \rouletteMalet, s.nextNodeID, 0, 1, "out", (i%7/2).round, "midinote", 60+i);
+      });
       (1/waitTime).wait;
     }
   }
@@ -61,132 +67,105 @@ Tdef(\poleWave, {
 PoleWave Reverse
 */
 
-Tdef(\poleWaveReverse, {
-  var count = 12;
-  var waitTime = 240;
-  var from = Color(1.0.rand, 1.0.rand, 1.0.rand);
-  var to = Color(1.0.rand, 1.0.rand, 1.0.rand);
-  8.do{
-    count.do{|i|
-      var newCue;
-      waitTime = 0.95 * waitTime;
-      newCue = DMXRGBCue.new();
-      newCue.range(KPPole.head,KPPole.tail,Color(0,0,0));
-      if( 3 <= i ,{
-        if( 8 < i, {
-          newCue.gradationRange(KPPole.heads[i+6],KPPole.tails[i+6],from,to);
+ Tdef(\poleWaveReverse, {
+   var count = 12;
+   var waitTime = 240;
+   var from = Color(1.0.rand, 1.0.rand, 1.0.rand);
+   var to = Color(1.0.rand, 1.0.rand, 1.0.rand);
+   var synthId = [0,1].choose;
+   8.do{
+     count.do{|i|
+       var newCue;
+       waitTime = 0.95 * waitTime;
+       newCue = DMXRGBCue.new();
+       newCue.range(KPPole.head,KPPole.tail,Color(0,0,0));
+       if( 3 <= i ,{
+         if( 8 < i, {
+           newCue.gradationRange(KPPole.heads[i+6],KPPole.tails[i+6],from,to);
+           },{
+             var nIdx = ( i - 3 ) + i;
+
+             newCue.gradationRange(KPPole.heads[nIdx],KPPole.tails[nIdx],from,to);
+             newCue.gradationRange(KPPole.heads[nIdx+1],KPPole.tails[nIdx+1],from,to);
+         });
+         },{
+           newCue.gradationRange(KPPole.heads[i],KPPole.tails[i],from,to);
+       });
+
+       ~mainCueP.merge(newCue);
+       ~netAddrP.sendMsg("/dmx", ~mainCueP.asRawInt8);
+       if(0==synthId,{
+        s.sendMsg(9, \rouletteBlip, s.nextNodeID, 0, 1, "out", (i%7).round, "midinote", 60);
         },{
-            var nIdx = ( i - 3 ) + i;
-
-            newCue.gradationRange(KPPole.heads[nIdx],KPPole.tails[nIdx],from,to);
-            newCue.gradationRange(KPPole.heads[nIdx+1],KPPole.tails[nIdx+1],from,to);
-        });
-      },{
-        newCue.gradationRange(KPPole.heads[i],KPPole.tails[i],from,to);
+        s.sendMsg(9, \rouletteMalet, s.nextNodeID, 0, 1, "out", (i%7).round, "midinote", 60);
       });
-
-      ~mainCueP.merge(newCue);
-      ~netAddrP.sendMsg("/dmx", ~mainCueP.asRawInt8);
        (1/waitTime).wait;
-    }
-  }
-});
-
+     }
+   }
+ });
 
 ////////////////////////////////////
 
 // Flex
 
 ////////////////////////////////////
-/*
-FlexWave
-*/
+ /*
+ FlexWave
+ */
 
 Tdef(\rouletteSceneFlex, {
-  (Date.getDate.asString + " started scene Roulette Scene").postln;
-  8.do{
-    Tdef(\flexWave).embed;
-    Tdef(\flexWaveReverse).embed;
-  };
-});
+   (Date.getDate.asString + " started scene Roulette Scene").postln;
+   8.do{
+     Tdef(\flexWave).embed;
+     Tdef(\flexWaveReverse).embed;
+   };
+ });
 
 
-Tdef(\flexWave, {
-  var count = KPFlex.rgbSize;
-  var waitTime = 1.004;
-  var color = Color(1.0.rand, 1.0.rand, 1.0.rand);
-  25.do{
+ /*
+ FlexWave
+ */
+
+ Tdef(\flexWave, {
+   var count = KPFlex.rgbSize;
+   var waitTime = 240;
+   var color = Color(1.0.rand, 1.0.rand, 1.0.rand);
+   9.do{
     count.do{|i|
-      var newCue;
-      var idx;
-
-      waitTime = 1.025 * waitTime;
-      if(50<waitTime ,{waitTime=50});
-      idx = (count - i) - 1;
-
-      newCue = DMXRGBCue.new();
-      newCue.range(KPFlex.head,KPFlex.tail,Color(0,0,0));
-      newCue.range(KPPole.heads[idx],KPPole.tails[idx],color);
-
-      ~mainCueF.merge(newCue);
-      ~netAddrF.sendMsg("/dmx", ~mainCueF.asRawInt8);
-
-      (1/waitTime).wait;
-    }
-  }
-});
-
-/*
-FlexWave Reverse
-*/
-
-Tdef(\flexWave, {
-  var count = KPFlex.rgbSize;
-  var waitTime = 1.004;
-  var color = Color(1.0.rand, 1.0.rand, 1.0.rand);
-  25.do{
-    count.do{|i|
-      var newCue;
-      var idx;
-
-      waitTime = 1.025 * waitTime;
-      if(50<waitTime ,{waitTime=50});
-      idx = (count - i) - 1;
-
-      newCue = DMXRGBCue.new();
-      newCue.range(KPFlex.head,KPFlex.tail,Color(0,0,0));
-      newCue.range(KPPole.heads[idx],KPPole.tails[idx],color);
-
-      ~mainCueF.merge(newCue);
-      ~netAddrF.sendMsg("/dmx", ~mainCueF.asRawInt8);
-
-      (1/waitTime).wait;
-    }
-  }
-});
-
-/*
-FlexWave Reverse
-*/
-
-Tdef(\flexWaveReverse, {
-  var count = KPFlex.rgbSize;
-  var waitTime = 240;
-  var color = Color(1.0.rand, 1.0.rand, 1.0.rand);
-
-  8.do{
-    count.do{|i|
-      var newCue;
+      var newCue = DMXRGBCue.new();
       waitTime = 0.95 * waitTime;
-      newCue = DMXRGBCue.new();
       newCue.range(KPFlex.head,KPFlex.tail,Color(0,0,0));
-
-      newCue.range(KPFlex.heads,KPFlex.tails,color);
-
+      newCue.range(i*3, i*3+3, color);
       ~mainCueF.merge(newCue);
       ~netAddrF.sendMsg("/dmx", ~mainCueF.asRawInt8);
-       (1/waitTime).wait;
+      ("current flex: "++ i.asString).postln;
+      (1/waitTime).wait;
     }
-  }
+
+   }
+});
+
+
+ /*
+ FlexWaveReverse
+ */
+
+ Tdef(\flexWaveReverse, {
+   var count = KPFlex.rgbSize;
+   var waitTime = 1.004;
+   var color = Color(1.0.rand, 1.0.rand, 1.0.rand);
+   9.do{
+    count.do{|i|
+      var newCue = DMXRGBCue.new();
+      waitTime = 1.025 * waitTime;
+      newCue.range(KPFlex.head,KPFlex.tail,Color(0,0,0));
+      newCue.range(i*3, i*3+3, color);
+      ~mainCueF.merge(newCue);
+      ~netAddrF.sendMsg("/dmx", ~mainCueF.asRawInt8);
+      ("current flex: "++ i.asString).postln;
+      (1/waitTime).wait;
+    }
+
+   }
 });
 

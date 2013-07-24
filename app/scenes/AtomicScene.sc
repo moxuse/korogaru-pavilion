@@ -38,6 +38,9 @@ Tdef(\randomRGBPole, {
     });
     ~mainCueP.merge(newCue);
     ~netAddrP.sendMsg("/dmx", ~mainCueP.asRawInt8);
+    s.sendMsg(9, "atomicSine", s.nextNodeID , 0, 1);
+    s.sendMsg(9, "atomicClip", s.nextNodeID , 0, 1);
+    s.sendMsg(9, "atomicKlank", s.nextNodeID , 0, 1);
     (1/waitTime).wait;
   };
 
@@ -57,6 +60,7 @@ Tdef(\randomRGBPoleReverse, {
     });
     ~mainCueP.merge(newCue);
     ~netAddrP.sendMsg("/dmx", ~mainCueP.asRawInt8);
+    s.sendMsg(9, "atomicSine", s.nextNodeID , 0, 1);
     (1/waitTime).wait;
   };
 

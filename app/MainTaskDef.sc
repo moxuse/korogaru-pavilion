@@ -22,8 +22,7 @@ Tdef(\mainP,{
 
 Tdef(\mainF,{
     inf.do{|i|
-    ("scene_current F : "+i+" : "+~scenesF[i%~scenesF.size]).postln;
-    ~globalSceneCount = ~globalSceneCount+1;
+    ("scene_current F : "+i+" : "+~scenesF[~globalSceneCount%~scenesF.size]).postln;
     Tdef(~scenesF[~globalSceneCount%~scenesF.size]).embed;
 
   };
@@ -34,8 +33,18 @@ Tdef(\mainF,{
 OSCFunc({|msg|
   msg.postln;
   Tdef(\mainP).reset;
+  Tdef(\mainF).reset;
   "globalSceneCount--- ".post;
   ~globalSceneCount.postln;
+  s.sendMsg("n_set",2001, \gate, 0);
+  s.sendMsg("n_set",2002, \gate, 0);
+  s.sendMsg("n_set",2003, \gate, 0);
+  s.sendMsg("n_set",2004, \gate, 0);
+  s.sendMsg("n_set",2005, \gate, 0);
+  s.sendMsg("n_set",2006, \gate, 0);
+  s.sendMsg("n_set",2007, \gate, 0);
+  s.sendMsg("n_set",2008, \gate, 0);
+  s.sendMsg("n_set",2009, \gate, 0);
   },
   '/next_scene',
   nil
