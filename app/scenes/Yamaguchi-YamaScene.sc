@@ -14,12 +14,12 @@ Tdef(\yamaguchi_YamaSceneFlex,{
   (Date.getDate.asString +"playing Yamaguchi-Yama Scene").postln;
 
   s.sendMsg(9,"simplePlayerAsrNonRand", 2010,0,1, \bufnum, 80, \out, 7, \gate,1, \amp, 1.4 );
-  s.sendMsg(9,"simplePlayerAsrNonRand", 2011,0,1, \bufnum, 90, \out, 8, \gate,1, \amp, 0.8 );
+  s.sendMsg(9,"simplePlayerAsrNonRand", 2011,0,1, \bufnum, 90, \out, 8, \gate,1, \amp, 0.6 );
   s.sendMsg(9,"simplePlayerAsrNonRand", 2012,0,1, \bufnum, 100, \out, 9, \gate,1, \amp, 1.0 );
   s.sendMsg(9,"simplePlayerAsrNonRand", 2013,0,1, \bufnum, 110, \out, 10, \gate,1, \amp, 1.4 );
   s.sendMsg(9,"simplePlayerAsrNonRand", 2014,0,1, \bufnum, 120, \out, 11, \gate,1, \amp, 1.0 );
 
-  8.do{
+  8.do{|i|
     Tdef(\fadeYama).embed;
     Tdef(\fadeYamaRand).embed;
 
@@ -30,6 +30,7 @@ Tdef(\yamaguchi_YamaSceneFlex,{
       s.sendMsg("n_set",2012, \gate, 0);
       s.sendMsg("n_set",2013, \gate, 0);
       s.sendMsg("n_set",2014, \gate, 0);
+			"copleted".postln;
     });
   };
 
