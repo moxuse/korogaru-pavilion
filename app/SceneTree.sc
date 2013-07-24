@@ -21,13 +21,14 @@ var synthdefs  = [
   ~appDir++"synths/SimplePlayer.sc",
   ~appDir++"synths/AtomicSynth.sc",
   ~appDir++"synths/RouletteSynth.sc",
-  ~appDir++"synths/Yamaguchi_UmiSynth.sc"
+  ~appDir++"synths/Yamaguchi_UmiSynth.sc",
+  ~appDir++"synths/Yamaguchi_YamaSynth.sc"
 ];
 
 synthdefs.do({|defs| defs.loadPaths()});
 scenes.do({|scene| scene.loadPaths()});
 
-~scenesP = [ /*\atomicScene, \rouletteScene*/ \yamaguchi_UmiScene ];
-~scenesF = [ /*\atomicSceneFlex,\rouletteSceneFlex ,*/\yamaguchi_YamaSceneFlex ];
+~scenesP = [ \yamaguchi_UmiScene,\atomicScene, \rouletteScene  ];
+~scenesF = [ \yamaguchi_YamaSceneFlex,\atomicSceneFlex,\rouletteSceneFlex ];
 
 )

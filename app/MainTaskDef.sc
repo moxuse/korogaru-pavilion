@@ -45,6 +45,11 @@ OSCFunc({|msg|
   s.sendMsg("n_set",2007, \gate, 0);
   s.sendMsg("n_set",2008, \gate, 0);
   s.sendMsg("n_set",2009, \gate, 0);
+  s.sendMsg("n_set",2010, \gate, 0);
+  s.sendMsg("n_set",2011, \gate, 0);
+  s.sendMsg("n_set",2012, \gate, 0);
+  s.sendMsg("n_set",2013, \gate, 0);
+  s.sendMsg("n_set",2014, \gate, 0);
   },
   '/next_scene',
   nil
