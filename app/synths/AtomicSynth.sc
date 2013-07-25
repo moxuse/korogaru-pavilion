@@ -25,7 +25,7 @@ SynthDef(\atomicSine, {arg gate = 1, amp = 0.3, decay = 0.8;
 
 
 
-SynthDef(\atomicClip, {arg gate = 1, amp = 0.3, decay = 0.8;
+SynthDef(\atomicClip, {arg gate = 1, amp = 0.2, decay = 0.8;
 	var osc,trig;
 
   trig = Impulse.ar(4);
@@ -39,7 +39,7 @@ SynthDef(\atomicClip, {arg gate = 1, amp = 0.3, decay = 0.8;
 }
 ).store;
 
-SynthDef(\atomicKlank, {arg gate = 1, amp = 0.3, decay = 0.8;
+SynthDef(\atomicKlank, {arg gate = 1, amp = 0.15, decay = 0.8;
 	var osc,trig;
 
   trig = Impulse.ar(4);
