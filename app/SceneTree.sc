@@ -18,6 +18,7 @@ var scenes  = [
 
 var synthdefs  = [
   ~appDir++"synths/MasterVolumeSynth.sc",
+  ~appDir++"synths/MicRcorderSynth.sc",
   ~appDir++"synths/SimplePlayer.sc",
   ~appDir++"synths/AtomicSynth.sc",
   ~appDir++"synths/RouletteSynth.sc",
