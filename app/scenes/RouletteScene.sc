@@ -126,11 +126,11 @@ Tdef(\rouletteSceneFlex, {
  FlexWave
  */
 
- Tdef(\flexWave, {
+ Tdef(\flexWave, {|i|
    var count = KPFlex.rgbSize;
    var waitTime = 1.004;
    var color = Color(1.0.rand, 1.0.rand, 1.0.rand);
-   9.do{
+   9.do{|i|
     count.do{|i|
       var newCue = DMXRGBCue.new();
       waitTime = 1.025 * waitTime;
@@ -139,6 +139,11 @@ Tdef(\rouletteSceneFlex, {
       ~mainCueF.merge(newCue);
       ~netAddrF.sendMsg("/dmx", ~mainCueF.asRawInt8);
       //("current flex: "++ i.asString).postln;
+	  if(0==synthId,{
+        s.sendMsg(9, \rouletteBlip, s.nextNodeID, 0, 1, "out", (i%5).round + 6, "midinote", 60+i, "amp", 0.23);
+      },{
+        s.sendMsg(9, \rouletteMalet, s.nextNodeID, 0, 1, "out", (i%5).round + 6, "midinote", 60+i, "amp", 0.23);
+      });
       (1/waitTime).wait;
     }
 
@@ -149,7 +154,7 @@ Tdef(\rouletteSceneFlex, {
  FlexWaveReverse
  */
 
- Tdef(\flexWaveReverse, {
+ Tdef(\flexWaveReverse, {|i|
    var count = KPFlex.rgbSize;
    var waitTime = 240;
    var color = Color(1.0.rand, 1.0.rand, 1.0.rand);
@@ -163,6 +168,11 @@ Tdef(\rouletteSceneFlex, {
       newCue.range(i*3, i*3+3, color);
       ~mainCueF.merge(newCue);
       ~netAddrF.sendMsg("/dmx", ~mainCueF.asRawInt8);
+	  if(0==synthId,{
+		s.sendMsg(9, \rouletteBlip, s.nextNodeID, 0, 1, "out", (i%5).round + 6, "midinote", 60, "amp", 0.23);
+      },{
+        s.sendMsg(9, \rouletteMalet, s.nextNodeID, 0, 1, "out", (i%5).round + 6, "midinote", 60, "amp", 0.23);
+      });
       //("current flex: "++ i.asString).postln;
       (1/waitTime).wait;
     }
