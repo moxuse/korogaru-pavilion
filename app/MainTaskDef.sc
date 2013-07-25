@@ -32,7 +32,7 @@ Tdef(\mainP,{
 		s.sendMsg("n_set",2012, \gate, 0);
 		s.sendMsg("n_set",2013, \gate, 0);
 		s.sendMsg("n_set",2014, \gate, 0);
-		if(0==fact%2,{
+		if(0==fact,{
 			s.sendMsg(9, \vocoder, 10000, 0, 1, "gate", 1, "out", 12);
 			s.sendMsg("/n_set", 10001, "gate", 0);
 		},{
