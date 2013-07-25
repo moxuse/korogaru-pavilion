@@ -28,7 +28,7 @@ var synthdefs  = [
 synthdefs.do({|defs| defs.loadPaths()});
 scenes.do({|scene| scene.loadPaths()});
 
-~scenesP = [ \yamaguchi_UmiScene,\atomicScene, \rouletteScene  ];
-~scenesF = [ \yamaguchi_YamaSceneFlex,\atomicSceneFlex,\rouletteSceneFlex ];
+~scenesP = [ \atomicScene, \rouletteScene,\yamaguchi_UmiScene  ];
+~scenesF = [ \atomicSceneFlex,\rouletteSceneFlex,\yamaguchi_YamaSceneFlex ];
 
 )
