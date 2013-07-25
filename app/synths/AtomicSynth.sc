@@ -18,7 +18,7 @@ SynthDef(\atomicSine, {arg gate = 1, amp = 0.3, decay = 0.8;
   osc = osc + Impulse.ar(1,0)*0.3;
 
   8.do{|i|
-    Out.ar(TRand.ar(0, 13, trig).round, osc * amp);
+    Out.ar(TRand.ar(0, 11, trig).round, osc * amp);
   }
 }
 ).store;
@@ -34,7 +34,7 @@ SynthDef(\atomicClip, {arg gate = 1, amp = 0.2, decay = 0.8;
 
 
   8.do{|i|
-    Out.ar(TRand.ar(0, 13, trig).round, osc * amp);
+    Out.ar(TRand.ar(0, 1, trig).round, osc * amp);
   }
 }
 ).store;
@@ -48,7 +48,7 @@ SynthDef(\atomicKlank, {arg gate = 1, amp = 0.15, decay = 0.8;
 
 
   8.do{|i|
-    Out.ar(TRand.ar(0, 13, trig).round, osc * amp);
+    Out.ar(TRand.ar(0, 11, trig).round, osc * amp);
   }
 }
 ).store;

@@ -31,6 +31,13 @@ Tdef(\mainP,{
 		s.sendMsg("n_set",2012, \gate, 0);
 		s.sendMsg("n_set",2013, \gate, 0);
 		s.sendMsg("n_set",2014, \gate, 0);
+		if(0==i%2,{
+			s.sndMsg(9, "\vocoder", 10000, 0, 1, "gate", 1, "out", 12);
+			s.sndMsg("/n_set", 9999, "gate", 0);
+		},{
+			s.sndMsg(9, "\echoPlayer", 9999, 0, 1, "gate", 1, "out", 12);
+			s.sndMsg("/n_set", 10000, "gate", 0);
+		})
   };
 }).play;
 
@@ -49,6 +56,7 @@ OSCFunc({|msg|
   Tdef(\mainP).reset;
   Tdef(\mainF).reset;
   "globalSceneCount--- ".post;
+	~globalSceneCount = ~globalSceneCount+1;
   ~globalSceneCount.postln;
   s.sendMsg("n_set",2001, \gate, 0);
   s.sendMsg("n_set",2002, \gate, 0);
