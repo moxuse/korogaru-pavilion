@@ -126,23 +126,24 @@ Tdef(\rouletteSceneFlex, {
  FlexWave
  */
 
- Tdef(\flexWave, {|i|
+ Tdef(\flexWave, {
    var count = KPFlex.rgbSize;
    var waitTime = 1.004;
    var color = Color(1.0.rand, 1.0.rand, 1.0.rand);
+   var synthId = [0,1].choose;
    9.do{|i|
-    count.do{|i|
+    count.do{|j|
       var newCue = DMXRGBCue.new();
       waitTime = 1.025 * waitTime;
       newCue.range(KPFlex.head,KPFlex.tail,Color(0,0,0));
-      newCue.range(i*3, i*3+3, color);
+      newCue.range(j*3, j*3+3, color);
       ~mainCueF.merge(newCue);
       ~netAddrF.sendMsg("/dmx", ~mainCueF.asRawInt8);
       //("current flex: "++ i.asString).postln;
 	  if(0==synthId,{
-        s.sendMsg(9, \rouletteBlip, s.nextNodeID, 0, 1, "out", (i%5).round + 6, "midinote", 60+i, "amp", 0.23);
+        s.sendMsg(9, \rouletteBlip, s.nextNodeID, 0, 1, "out", (j%5).round + 6, "midinote", 60+j, "amp", 0.03);
       },{
-        s.sendMsg(9, \rouletteMalet, s.nextNodeID, 0, 1, "out", (i%5).round + 6, "midinote", 60+i, "amp", 0.23);
+        s.sendMsg(9, \rouletteMalet, s.nextNodeID, 0, 1, "out", (j%5).round + 6, "midinote", 60+j, "amp", 0.03);
       });
       (1/waitTime).wait;
     }
@@ -154,24 +155,24 @@ Tdef(\rouletteSceneFlex, {
  FlexWaveReverse
  */
 
- Tdef(\flexWaveReverse, {|i|
+ Tdef(\flexWaveReverse, {
    var count = KPFlex.rgbSize;
    var waitTime = 240;
    var color = Color(1.0.rand, 1.0.rand, 1.0.rand);
-
-   2.do{
-    count.do{|i|
+   var synthId = [0,1].choose;
+   2.do{|i|
+    count.do{|j|
       var newCue = DMXRGBCue.new();
       waitTime = 0.95 * waitTime;
 	  //waitTime.postln;
       newCue.range(KPFlex.head,KPFlex.tail,Color(0,0,0));
-      newCue.range(i*3, i*3+3, color);
+      newCue.range(j*3, j*3+3, color);
       ~mainCueF.merge(newCue);
       ~netAddrF.sendMsg("/dmx", ~mainCueF.asRawInt8);
 	  if(0==synthId,{
-		s.sendMsg(9, \rouletteBlip, s.nextNodeID, 0, 1, "out", (i%5).round + 6, "midinote", 60, "amp", 0.23);
+		s.sendMsg(9, \rouletteBlip, s.nextNodeID, 0, 1, "out", (j%5).round + 6, "midinote", 60, "amp", 0.05);
       },{
-        s.sendMsg(9, \rouletteMalet, s.nextNodeID, 0, 1, "out", (i%5).round + 6, "midinote", 60, "amp", 0.23);
+        s.sendMsg(9, \rouletteMalet, s.nextNodeID, 0, 1, "out", (j%5).round + 6, "midinote", 60, "amp", 0.03);
       });
       //("current flex: "++ i.asString).postln;
       (1/waitTime).wait;
