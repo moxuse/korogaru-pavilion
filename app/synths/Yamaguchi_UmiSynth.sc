@@ -37,7 +37,7 @@ SynthDef("simplePlayerAsrNonRand", {arg bufnum = 10, out = 0, amp = 1, gate = 1;
 
 SynthDef("nami_noise", {arg out = 0, amp = 1, gate = 1;
   var src;
-  src = ( (BrownNoise.ar(0.05)+PinkNoise.ar(0.15)) * LFNoise2.ar(0.3) )*EnvGen.ar(Env.asr(1,1.0,2),gate,doneAction:2);
+  src = ( (BrownNoise.ar(0.05)+PinkNoise.ar(0.05)) * LFNoise2.ar(0.3) )*EnvGen.ar(Env.asr(1,1.0,2),gate,doneAction:2);
   FreeSelfWhenDone.kr(src);
   Out.ar(out, src)
 }).store();

@@ -19,11 +19,11 @@ Tdef(\yamaguchi_YamaSceneFlex,{
   s.sendMsg(9,"simplePlayerAsrNonRand", 2013,0,1, \bufnum, 110, \out, 10, \gate,1, \amp, 1.4 );
   s.sendMsg(9,"simplePlayerAsrNonRand", 2014,0,1, \bufnum, 120, \out, 11, \gate,1, \amp, 1.0 );
 
-  8.do{|i|
+  10.do{|i|
     Tdef(\fadeYama).embed;
     Tdef(\fadeYamaRand).embed;
 
-    if(i >= 7,{
+    if(i >= 9,{
       "free nami synthes".postln;
       s.sendMsg("n_set",2010, \gate, 0);
       s.sendMsg("n_set",2011, \gate, 0);

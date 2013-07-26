@@ -23,11 +23,11 @@ Tdef(\yamaguchi_UmiScene, {
   s.sendMsg(9,"nami_noise", 2008,0,1, \out, 3, \gate,1, \amp, 0.8 );
   s.sendMsg(9,"nami_noise", 2009,0,1, \out, 5, \gate,1, \amp, 0.3 );
 
-  8.do{|i|
+  10.do{|i|
     Tdef(\fadeUmi).embed;
     Tdef(\fadeUmiRand).embed;
     Tdef(\poleUmiWave).embed;
-    if(i >= 7,{
+    if(i >= 9,{
       "free nami synthes".postln;
       s.sendMsg("n_set",2001, \gate, 0);
       s.sendMsg("n_set",2002, \gate, 0);
