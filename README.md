@@ -190,4 +190,8 @@ USBデバイスとシリアルポーをの認識をシャットダウンしま�
 ```
 
 
+###ライセンス
+
+[MITライセンス](http://opensource.org/licenses/mit-license.php)にて配布。
+
 
