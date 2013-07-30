@@ -121,7 +121,7 @@ startup.scdが実行され、メインGUIが表示され、
 
 自動的にシーケンスが始まります。
 
-[console alert](help-images/console_cap_1.png)
+![console alert](./help-images/console_cap_1.png)
 
 デバイスの認識がうまく行かない場合や、
 
@@ -148,7 +148,7 @@ korogaru-pavilion/app/sounds/
 
 ###メインGUI
 
-[console main gui](help-images/console._cap0.png)
+![console main gui](./help-images/console._cap0.png)
 
 ソフトウエア起動中は以上のようなGUIが表示されます。
 
@@ -190,8 +190,4 @@ USBデバイスとシリアルポーをの認識をシャットダウンしま�
 ```
 
 
-
-###ライセンス
-
-[MITライセンス](http://opensource.org/licenses/mit-license.php)にて配布。
 
