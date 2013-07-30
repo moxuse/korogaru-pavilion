@@ -1,11 +1,6 @@
 KOROGARU-PAVILION Software
 =================
 
----
-
-コロガルパビリオン ソフトウエア 
-=================
-
 
 
 #####YCAM10　コロガルパビリオン　音響／照明システムソフトウエア
@@ -90,7 +85,11 @@ korogaru-pavilion/app/sounds/
 ####4.DMX.sc
 
 [DMX.sc](https://github.com/supercollider-quarks/dmx)
+
 をダウンロード
+
+dmx/ フォルダを /korogaru-pavilion/lib/class/ のフォルダにコピー
+
 
 
 
