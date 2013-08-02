@@ -91,9 +91,18 @@ korogaru-pavilion/app/sounds/
 dmx/ フォルダを /korogaru-pavilion/lib/class/ のフォルダにコピー
 
 
+####5.FTDI USB Serial VCPドライバのインストール
 
 
-####5.startup.scdのコピー
+[http://www.ftdichip.com/Drivers/VCP.html](http://www.ftdichip.com/Drivers/VCP.html)
+
+ENTTEC USB Pro をVirtual COM Port(VCP)で認識するためのドライバウエアを上記よりダウンロード
+
+
+（本番環境ではMac OS X / x64 (64-bit) / v 2.2.18 を使用）
+
+
+####6.startup.scdのコピー
 korogaru-pavilion/startup.scdを
 
 /Users/<YOUR_USER>/Library/Application Support/SuperCollider/
