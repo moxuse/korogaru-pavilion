@@ -24,7 +24,6 @@ KOROGARU-PAVILION Software
 
 githubのリポジトリをクローンします。
 
-
 ```
 sudo mkdir /dev-app/
 
