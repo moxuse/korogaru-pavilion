@@ -36,9 +36,9 @@ git clone git@github.com:moxuse/korogaru-pavilion.git
 
 
 
-####2.Pythonライブラリ
+####2.Pythonモジュール
 
-Pythonライブラリをインストールします。以下のコマンドをターミナルで実行
+Pythonモジュールをインストールします。以下のコマンドをターミナルで実行
 
 #####pySerial
 
@@ -57,6 +57,13 @@ sudo pip install setproctitle
 ```
 sudo pip install optparse
 ```
+
+#####setproctitle
+
+```
+sudo pip install setproctitle
+```
+
 
 #####pyOSC
 
